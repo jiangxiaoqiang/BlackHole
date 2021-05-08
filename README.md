@@ -23,6 +23,7 @@ Play Online as well as Offline Songs<br>
   
 <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/home.png?raw=true" width="30%"></img> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/play.png?raw=true" width="30%"></img> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/local200.png?raw=true" width="30%"></img> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/global200.png?raw=true" width="30%"></img> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/mymusic.png?raw=true" width="30%"></img> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/favorites.png?raw=true" width="30%"></img> 
 
+<a href="https://www.buymeacoffee.com/ankitsangwan" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 <h3><a href="https://github.com/Sangwan5688/BlackHole/releases" rel="GitHub Releases">Download Latest Version</h3>
 
 # What's New
