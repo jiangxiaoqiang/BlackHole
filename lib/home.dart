@@ -20,7 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   Box settingsBox;
-  double appVersion = 1.4;
+  double appVersion = 1.5;
   bool checked = false;
   bool update = false;
   bool status = false;

@@ -11,7 +11,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  double appVersion = 1.4;
+  double appVersion = 1.5;
   String gender = "male";
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   final dbRef = FirebaseDatabase.instance.reference().child("Users");
