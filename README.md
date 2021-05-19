@@ -1,75 +1,84 @@
+<img width="125px" src="https://github.com/Sangwan5688/BlackHole/blob/main/assets/icon-white-trans.png" align="center" />
+
 # BlackHole
-Awesome Music Player made with Flutter
+Awesome Music Player made with Flutter!
 
 [![made-with-flutter](https://img.shields.io/badge/Made%20with-Flutter-1f425f.svg)](https://flutter.dev/) ![Release](https://img.shields.io/github/v/release/Sangwan5688/BlackHole)
 
-### Dont forget to :star: the repo
+### Don't forget to :star: the repo
 
 [![GitHub stars](https://img.shields.io/github/stars/Sangwan5688/BlackHole.svg?style=social&label=Star)](https://github.com//Sangwan5688/BlackHole) ![GitHub forks](https://img.shields.io/github/forks/Sangwan5688/BlackHole.svg?style=social&label=Forks) ![GitHub followers](https://img.shields.io/github/followers/Sangwan5688.svg?style=social&label=Follow)
 
 
-<h3>Features</h3>
-<p>Music Search<br>
-Top Playlists<br>
-Local and Global Top 200 songs<br>
-Streaming (320kbps)<br>
-Add Songs to Favorite<br>
-Download Support (320kbps with ID3 tags)<br>
-Play Online as well as Offline Songs<br>
+## Features
 
+* Best Streaming Quality (320kbps)
+* Music Search
+* Trending Songs
+* Support 15+ music languages
+* Local and Global Top Spotify songs
+* Add Songs to Favorite
+* Playlists support
+* Sleep timer
+* Lyrics Support
+* Listening history record
+* Dark mode / accent color
+* Download for offline play (320kbps with ID3 tags)
+* Play Online as well as Offline Songs
+* Auto Update Check
+* No Subcription
+* No Ads
 
+More to come...
 
-  <h3 align="center">Screenshots</h3>
+  <h3 align="center">Preview</h3>
   
-<img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/home.png?raw=true" width="30%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/play.png?raw=true" width="30%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/local200.png?raw=true" width="30%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/global200.png?raw=true" width="30%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/mymusic.png?raw=true" width="30%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/favorites.png?raw=true" width="30%">
+<img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/home.png?raw=true" width="33%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/play.png?raw=true" width="33%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/local200.png?raw=true" width="33%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/global200.png?raw=true" width="33%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/mymusic.png?raw=true" width="33%"> <img src="https://github.com/Sangwan5688/BlackHole/blob/main/Screenshots/favorites.png?raw=true" width="33%">
 
+## [Download Latest Version](https://github.com/Sangwan5688/BlackHole/releases)
+
+## License
+
+BlackHole is licensed under the [GPL v3.0](https://github.com/Sangwan5688/BlackHole/blob/main/LICENSE) license.
+
+## Build
+
+1. If you don't have Flutter SDK installed, please visit official [Flutter](https://flutter.dev/) site.
+2. Fetch latest source code from master branch.
+
+``` 
+git clone https://github.com/Sangwan5688/BlackHole.git
+```
+
+3. Run the app with Android Studio or Visual Studio. Or the command line.
+
+``` 
+flutter pub get
+flutter run
+```
+
+## Contribute 
+
+Contributions are welcomed. Please read our [contributing guidelines](https://github.com/Sangwan5688/BlackHole/blob/main/CONTRIBUTING.md) before contributing.
+
+## Need help?
+
+You can join our [Telegram Group](https://t.me/joinchat/fHDC1AWnOhw0ZmI9) if you have any query, or need help with something as well as to stay updated with the project and contact me.
+
+## Liked my work?
 <a href="https://www.buymeacoffee.com/ankitsangwan" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-<h3><a href="https://github.com/Sangwan5688/BlackHole/releases" rel="GitHub Releases">Download Latest Version</h3>
 
 # What's New
 ## v1.5
 ### Fixed:
-Spotify Top Charts fixed.<br>
-Android 11 Download Error.<br>
-App failed to start sometimes.<br>
-Removed duplicate entries from the Last Session.<br>
-Some UI Fixes and changes.<br>
-Minor Bug fixes.<br>
+* Spotify Top Charts fixed.
+* Android 11 Download Error.
+* App failed to start sometimes.
+* Removed duplicate entries from the Last Session.
+* Some UI Fixes and changes.
+* Minor Bug fixes.
 ### New Features
-Added Support for Song Lyrics.<br>
-Minor UI changes.<br>
+* Added Support for Song Lyrics.
+* Minor UI changes.
 
-## v1.3
-### Fixed:
-Song not downloading in Android 11.<br>
-Bottom Navigation Bar not changing with swipe.<br>
-Global Top 200 not showing correctly.<br>
-Song not stopping after app exit.<br>
-Notification couldn't be swiped to stop when paused.<br>
-Minor Bug fixes
-### New Features
-Added Sleep Timer.<br>
-Added support for different music languages.<br>
-Added Shuffle and Repeat in Offline Mode.<br>
-Minor changes
-
-## v1.2
-### Fixed:
-Search bar remaining 3/4 after screen change.<br>
-TextField Color remaining blue/teal.<br>
-Notification image not showing in Offline play.<br>
-Offline songs not playing in order.<br>
-Download stop after screen changed.<br>
-Unplayable/failed songs showing in offline.<br>
-### New Features
-Added Sort option in Offline Music.<br>
-Added few gestures.<br>
-Added Last Session Playlists.<br>
-
-## v1.1
-Create new Playlists, add or remove songs from them.<br>
-Change the accent colour of the app as well as the colour hue the way you like it.<br>
-Play screen no longer shows 'Unknown' during the song loading.<br>
-Fixed colour issues in the Light theme.<br>
-Changed about page.<br>
-Few bug fixes.<br>
+To read full changelog visit the [wiki page](https://github.com/Sangwan5688/BlackHole/wiki/Changelog)
