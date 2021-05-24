@@ -56,6 +56,7 @@ git clone https://github.com/Sangwan5688/BlackHole.git
 flutter pub get
 flutter run
 ```
+4. (Optional) You can setup your own database for the app or use the default. To setup your own follow [these instructions](https://github.com/Sangwan5688/BlackHole/wiki/Set-up-your-own-Firebase-Database).
 
 ## Contribute 
 
