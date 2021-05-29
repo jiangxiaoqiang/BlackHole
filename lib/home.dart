@@ -1,6 +1,7 @@
 import 'package:blackhole/countrycodes.dart';
 import 'package:blackhole/downloaded.dart';
 import 'package:blackhole/library.dart';
+import 'package:blackhole/setting.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,10 @@ class _HomePageState extends State<HomePage> {
   // final FirebaseAnalytics _analytics = FirebaseAnalytics();
   String capitalize(msg) {
     return "${msg[0].toUpperCase()}${msg.substring(1)}";
+  }
+
+  void callback() {
+    setState(() {});
   }
 
   void _onItemTapped(int index) {
@@ -484,7 +489,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                           onTap: () {
                             Navigator.pop(context);
-                            Navigator.pushNamed(context, '/setting');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SettingPage(callback: callback)));
+                            // Navigator.pushNamed(context, '/setting');
                           },
                         ),
                         ListTile(
