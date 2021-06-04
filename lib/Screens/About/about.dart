@@ -45,7 +45,7 @@ class _AboutScreenState extends State<AboutScreen> {
             ),
           ),
           GradientContainer(
-            child: SizedBox(),
+            child: null,
             opacity: true,
           ),
           Scaffold(
