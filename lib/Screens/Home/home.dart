@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
       pageController.animateToPage(index,
-          duration: Duration(milliseconds: 500), curve: Curves.linear);
+          duration: Duration(milliseconds: 450), curve: Curves.linear);
     });
   }
 
@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         ValueListenableBuilder(
                             valueListenable: Hive.box('settings').listenable(),
-                            builder: (context, box, widget) {
+                            builder: (BuildContext context, Box box, widget) {
                               return UserAccountsDrawerHeader(
                                 otherAccountsPictures: [
                                   IconButton(
@@ -548,7 +548,9 @@ class _HomePageState extends State<HomePage> {
                                                         valueListenable:
                                                             Hive.box('settings')
                                                                 .listenable(),
-                                                        builder: (context, box,
+                                                        builder: (BuildContext
+                                                                context,
+                                                            Box box,
                                                             widget) {
                                                           return Text(
                                                             (box.get('name') ==
