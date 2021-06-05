@@ -19,6 +19,7 @@ Awesome Music Player made with Flutter!
 * Local and Global Top Spotify songs
 * Add Songs to Favorite
 * Playlists support
+* Import Playlists from Spotify
 * Sleep timer
 * Lyrics Support
 * Listening history record
@@ -26,7 +27,8 @@ Awesome Music Player made with Flutter!
 * Download for offline play (320kbps with ID3 tags)
 * Play Online as well as Offline Songs
 * Auto Update Check
-* No Subcription
+* Cache support
+* No Subscription
 * No Ads
 
 More to come...
@@ -70,16 +72,15 @@ You can join our [Telegram Group](https://t.me/joinchat/fHDC1AWnOhw0ZmI9) if you
 <a href="https://www.buymeacoffee.com/ankitsangwan" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 # What's New
-## v1.5
-### Fixed:
-* Spotify Top Charts fixed.
-* Android 11 Download Error.
-* App failed to start sometimes.
-* Removed duplicate entries from the Last Session.
-* Some UI Fixes and changes.
+## v1.7
+### Changes:
+* Import Playlists from Spotify.
+* Added Cache support.
+* Added shuffle and repeat in online mode too.
+* Removed need for app restart after country and language change.
+* Increased search results from 5 to 10.
+* Some UI Fixes.
 * Minor Bug fixes.
-### New Features
-* Added Support for Song Lyrics.
 * Minor UI changes.
 
 To read full changelog visit the [wiki page](https://github.com/Sangwan5688/BlackHole/wiki/Changelog)
