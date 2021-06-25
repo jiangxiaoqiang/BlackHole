@@ -469,8 +469,7 @@ class _HomePageState extends State<HomePage> {
                               return;
                             },
                             child: NestedScrollView(
-                              physics:
-                                  BouncingScrollPhysics(), //NeverScrollableScrollPhysics(),
+                              physics: BouncingScrollPhysics(),
                               controller: _scrollController,
                               headerSliverBuilder: (BuildContext context,
                                   bool innerBoxScrolled) {
@@ -612,7 +611,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           autofocus: false,
                                           onSubmitted: (query) {
-                                            query == ''
+                                            query.trim() == ''
                                                 ? showDialog(
                                                     context: context,
                                                     builder:
