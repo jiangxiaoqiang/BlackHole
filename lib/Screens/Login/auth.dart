@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:blackhole/CustomWidgets/gradientContainers.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -16,7 +15,6 @@ class _AuthScreenState extends State<AuthScreen> {
   double appVersion;
   Map deviceInfo = {};
   String gender = "male";
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
   final dbRef = FirebaseDatabase.instance.reference().child("Users");
 
   @override
@@ -43,7 +41,7 @@ class _AuthScreenState extends State<AuthScreen> {
     setState(() {});
   }
 
-  Future _sendAnalytics(String name, String gender) async {
+  Future _addUserData(String name, String gender) async {
     DatabaseReference pushedPostRef = dbRef.push();
     String postId = pushedPostRef.key;
     pushedPostRef.set({
@@ -69,13 +67,6 @@ class _AuthScreenState extends State<AuthScreen> {
       "preferredLanguage": ["Hindi"],
     });
     Hive.box('settings').put('userID', postId);
-
-    analytics.logEvent(
-      name: 'NewUser',
-      parameters: <String, dynamic>{
-        'Name': name,
-      },
-    );
   }
 
   @override
@@ -230,11 +221,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                 onSubmitted: (String value) {
                                   if (value == '') {
                                     Hive.box('settings').put('name', 'Guest');
-                                    _sendAnalytics('Guest', gender);
+                                    _addUserData('Guest', gender);
                                   } else {
                                     Hive.box('settings')
                                         .put('name', value.trim());
-                                    _sendAnalytics(value, gender);
+                                    _addUserData(value, gender);
                                   }
                                   Navigator.popAndPushNamed(context, '/');
                                 }),
