@@ -31,7 +31,6 @@ class _HomePageState extends State<HomePage> {
   double appVersion;
   bool checked = false;
   bool update = false;
-  bool status = false;
 
   String capitalize(String msg) {
     return "${msg[0].toUpperCase()}${msg.substring(1)}";
@@ -64,11 +63,6 @@ class _HomePageState extends State<HomePage> {
           '${now.toUtc().add(Duration(hours: 5, minutes: 30)).toString().split('.').first} IST');
       updateUserDetails('timeZone',
           'Zone: ${now.timeZoneName}, Offset: ${now.timeZoneOffset.toString().split('.').first}');
-      final tpStatus = FirebaseDatabase.instance.reference().child("TopStatus");
-      tpStatus.once().then((DataSnapshot snapshot) {
-        status = snapshot.value;
-        status ??= true;
-      });
       final dbRef =
           FirebaseDatabase.instance.reference().child("LatestVersion");
 
@@ -715,7 +709,6 @@ class _HomePageState extends State<HomePage> {
                       TopCharts(
                         region: CountryCodes().countryCodes[
                             Hive.box('settings').get('region') ?? 'India'],
-                        status: status,
                       ),
                       YouTube(),
                       LibraryPage(),
