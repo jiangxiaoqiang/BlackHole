@@ -10,7 +10,7 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-  double appVersion;
+  String appVersion;
 
   @override
   void initState() {
@@ -20,10 +20,8 @@ class _AboutScreenState extends State<AboutScreen> {
 
   void main() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    List temp = packageInfo.version.split('.');
-    temp.removeLast();
     setState(() {
-      appVersion = double.parse(temp.join('.'));
+      appVersion = packageInfo.version;
     });
   }
 

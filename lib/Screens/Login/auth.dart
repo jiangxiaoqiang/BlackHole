@@ -12,7 +12,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  double appVersion;
+  String appVersion;
   Map deviceInfo = {};
   String gender = "male";
   final dbRef = FirebaseDatabase.instance.reference().child("Users");
@@ -27,9 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     DeviceInfoPlugin info = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await info.androidInfo;
-    List temp = packageInfo.version.split('.');
-    temp.removeLast();
-    appVersion = double.parse(temp.join('.'));
+    appVersion = packageInfo.version;
     deviceInfo.addAll({
       'Brand': androidInfo.brand,
       'Manufacturer': androidInfo.manufacturer,
