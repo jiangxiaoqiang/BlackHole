@@ -1,105 +1,79 @@
+import 'package:blackhole/Screens/Common/song_list.dart';
 import 'package:blackhole/Screens/Player/audioplayer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:blackhole/APIs/api.dart';
 
-List playlists = [
-  {
-    "id": "RecentlyPlayed",
-    "title": "RecentlyPlayed",
-    "image": "",
-    "songsList": [],
-    "type": ""
-  }
-];
-List cachedPlaylists = [
-  {
-    "id": "RecentlyPlayed",
-    "title": "RecentlyPlayed",
-    "image": "",
-    "songsList": [],
-    "type": ""
-  }
-];
 bool fetched = false;
-bool showCached = true;
 List preferredLanguage =
     Hive.box('settings').get('preferredLanguage') ?? ['Hindi'];
+Map data = Hive.box('cache').get('homepage', defaultValue: {});
+final lists = [
+  "recent",
+  "new_trending",
+  "charts",
+  "new_albums",
+  "top_playlists",
+  // "city_mod",
+  // "artist_recos"
+];
 
-class TrendingPage extends StatefulWidget {
+class SaavnHomePage extends StatefulWidget {
   @override
-  _TrendingPageState createState() => _TrendingPageState();
+  _SaavnHomePageState createState() => _SaavnHomePageState();
 }
 
-class _TrendingPageState extends State<TrendingPage> {
-  List recentList = Hive.box('recentlyPlayed').get('recentSongs') ?? [];
+class _SaavnHomePageState extends State<SaavnHomePage> {
+  List recentList =
+      Hive.box('recentlyPlayed').get('recentSongs', defaultValue: []);
 
-  getPlaylists() async {
-    final dbRef = FirebaseDatabase.instance.reference().child("Playlists");
-    for (int a = 0; a < preferredLanguage.length; a++) {
-      await dbRef
-          .child(preferredLanguage[a])
-          .once()
-          .then((DataSnapshot snapshot) {
-        playlists.addAll(snapshot.value);
-        Hive.box('cache').put(preferredLanguage[a], snapshot.value);
-      });
-    }
-  }
-
-  getPlaylistSongs() async {
-    await getPlaylists();
-    for (int i = 1; i < playlists.length; i++) {
-      try {
-        playlists[i] = await Playlist().fetchPlaylistSongs(playlists[i]);
-        if (playlists[i]["songsList"].isNotEmpty) {
-          Hive.box('cache').put(playlists[i]["id"], playlists[i]);
-        }
-      } catch (e) {
-        print("Error in Index $i in TrendingList: $e");
-        playlists[i] = cachedPlaylists[i];
-      }
-    }
-    setState(() {
-      cachedPlaylists = playlists;
-      showCached = false;
-    });
-  }
-
-  getCachedPlaylists() async {
-    for (int a = 0; a < preferredLanguage.length; a++) {
-      Iterable value = await Hive.box('cache').get(preferredLanguage[a]);
-      if (value == null) return;
-      cachedPlaylists.addAll(value);
-    }
-    if (cachedPlaylists.length <= 1) return;
-    for (int i = 1; i < cachedPlaylists.length; i++) {
-      try {
-        cachedPlaylists[i] =
-            await Hive.box('cache').get(cachedPlaylists[i]["id"]);
-      } catch (e) {
-        print("Error in Index $i in CachedTrendingList: $e");
-      }
+  void getHomePageData() async {
+    Map recievedData = await SaavnAPI().fetchHomePageData();
+    if (recievedData != null || recievedData.isNotEmpty) {
+      Hive.box('cache').put('homepage', recievedData);
+      data = recievedData;
     }
     setState(() {});
+  }
+
+  String getSubTitle(Map item) {
+    final type = item['type'];
+    if (type == 'playlist') {
+      return formatString(item['subtitle']) ?? '';
+    } else if (type == 'radio_station') {
+      return "Artist Radio";
+    } else if (type == "song") {
+      return formatString(item["artist"]);
+    } else {
+      final artists = item['more_info']['artistMap']['artists']
+          .map((artist) => artist['name'])
+          .toList();
+      return formatString(artists.join(', '));
+    }
+  }
+
+  String formatString(String text) {
+    return text
+        .toString()
+        .replaceAll("&amp;", "&")
+        .replaceAll("&#039;", "'")
+        .replaceAll("&quot;", "\"")
+        .trim();
   }
 
   @override
   Widget build(BuildContext context) {
     if (!fetched) {
-      getCachedPlaylists();
-      getPlaylistSongs();
+      getHomePageData();
       fetched = true;
     }
-    List plst = showCached == true ? cachedPlaylists : playlists;
     return ListView.builder(
-        physics: BouncingScrollPhysics(), //NeverScrollableScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         shrinkWrap: true,
         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
         scrollDirection: Axis.vertical,
-        itemCount: plst.length,
+        itemCount: data.isEmpty ? 1 : lists.length,
         itemBuilder: (context, idx) {
           if (idx == 0) {
             return (recentList.isEmpty ||
@@ -165,6 +139,7 @@ class _TrendingPageState extends State<TrendingPage> {
                                       softWrap: false,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
+                                          fontSize: 11,
                                           color: Theme.of(context)
                                               .textTheme
                                               .caption
@@ -203,7 +178,7 @@ class _TrendingPageState extends State<TrendingPage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15, 10, 0, 5),
                     child: Text(
-                      '${(plst[idx]["title"])}',
+                      '${formatString(data['modules'][lists[idx]]["title"])}',
                       style: TextStyle(
                         color: Theme.of(context).accentColor,
                         fontSize: 16,
@@ -213,7 +188,7 @@ class _TrendingPageState extends State<TrendingPage> {
                   ),
                 ],
               ),
-              plst[idx]["songsList"] == null
+              data[lists[idx]] == null
                   ? SizedBox(
                       height: 200,
                       child: ListView.builder(
@@ -241,8 +216,6 @@ class _TrendingPageState extends State<TrendingPage> {
                                   textAlign: TextAlign.center,
                                   softWrap: false,
                                   overflow: TextOverflow.ellipsis,
-                                  // style: TextStyle(
-                                  //     color: Theme.of(context).accentColor),
                                 ),
                                 Text(
                                   'Please Wait',
@@ -250,6 +223,7 @@ class _TrendingPageState extends State<TrendingPage> {
                                   softWrap: false,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
+                                      fontSize: 11,
                                       color: Theme.of(context)
                                           .textTheme
                                           .caption
@@ -267,8 +241,9 @@ class _TrendingPageState extends State<TrendingPage> {
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        itemCount: plst[idx]["songsList"].length,
+                        itemCount: data[lists[idx]].length,
                         itemBuilder: (context, index) {
+                          final item = data[lists[idx]][index];
                           return GestureDetector(
                             child: SizedBox(
                               width: 150,
@@ -284,33 +259,40 @@ class _TrendingPageState extends State<TrendingPage> {
                                       errorWidget: (context, _, __) => Image(
                                         image: AssetImage('assets/cover.jpg'),
                                       ),
-                                      imageUrl: plst[idx]["songsList"][index]
-                                              ["image"]
+                                      imageUrl: item["image"]
                                           .replaceAll('http:', 'https:'),
                                       placeholder: (context, url) => Image(
-                                        image: AssetImage('assets/cover.jpg'),
+                                        image: (item["type"] == 'playlist' ||
+                                                item["type"] == 'album')
+                                            ? AssetImage('assets/album.png')
+                                            : item["type"] == 'artist'
+                                                ? AssetImage(
+                                                    'assets/artist.png')
+                                                : AssetImage(
+                                                    'assets/cover.jpg'),
                                       ),
                                     ),
                                   ),
                                   Text(
-                                    '${plst[idx]["songsList"][index]["title"]}',
+                                    '${formatString(item["title"])}',
                                     textAlign: TextAlign.center,
                                     softWrap: false,
                                     overflow: TextOverflow.ellipsis,
-                                    // style: TextStyle(
-                                    //     color: Theme.of(context).accentColor),
                                   ),
-                                  Text(
-                                    '${plst[idx]["songsList"][index]["artist"]}',
-                                    textAlign: TextAlign.center,
-                                    softWrap: false,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .caption
-                                            .color),
-                                  ),
+                                  lists[idx] != 'charts'
+                                      ? Text(
+                                          getSubTitle(item),
+                                          textAlign: TextAlign.center,
+                                          softWrap: false,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 11,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .caption
+                                                  .color),
+                                        )
+                                      : SizedBox(),
                                 ],
                               ),
                             ),
@@ -319,14 +301,22 @@ class _TrendingPageState extends State<TrendingPage> {
                                 context,
                                 PageRouteBuilder(
                                   opaque: false,
-                                  pageBuilder: (_, __, ___) => PlayScreen(
-                                    data: {
-                                      'response': plst[idx]["songsList"],
-                                      'index': index,
-                                      'offline': false,
-                                    },
-                                    fromMiniplayer: false,
-                                  ),
+                                  pageBuilder: (_, __, ___) =>
+                                      item["type"] == "song"
+                                          ? PlayScreen(
+                                              data: {
+                                                'response': data[lists[idx]]
+                                                    .where((e) =>
+                                                        (e["type"] == 'song'))
+                                                    .toList(),
+                                                'index': 0,
+                                                'offline': false,
+                                              },
+                                              fromMiniplayer: false,
+                                            )
+                                          : SongsListPage(
+                                              listItem: item,
+                                            ),
                                 ),
                               );
                             },

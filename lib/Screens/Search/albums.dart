@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:blackhole/CustomWidgets/downloadButton.dart';
 import 'package:blackhole/CustomWidgets/gradientContainers.dart';
-import 'package:blackhole/Screens/Search/album_songs.dart';
+import 'package:blackhole/Screens/Common/song_list.dart';
 import 'package:blackhole/Screens/Search/artists.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _AlbumSearchPageState extends State<AlbumSearchPage> {
       switch (widget.type) {
         case 'Playlists':
           print(widget.query);
-          Search().fetchAlbums(widget.query, 'playlist').then((value) {
+          SaavnAPI().fetchAlbums(widget.query, 'playlist').then((value) {
             setState(() {
               searchedList = value;
               fetched = true;
@@ -43,7 +43,7 @@ class _AlbumSearchPageState extends State<AlbumSearchPage> {
           });
           break;
         case 'Albums':
-          Search().fetchAlbums(widget.query, 'album').then((value) {
+          SaavnAPI().fetchAlbums(widget.query, 'album').then((value) {
             setState(() {
               searchedList = value;
               fetched = true;
@@ -51,7 +51,7 @@ class _AlbumSearchPageState extends State<AlbumSearchPage> {
           });
           break;
         case 'Artists':
-          Search().fetchAlbums(widget.query, 'artist').then((value) {
+          SaavnAPI().fetchAlbums(widget.query, 'artist').then((value) {
             setState(() {
               searchedList = value;
               fetched = true;
@@ -145,23 +145,17 @@ class _AlbumSearchPageState extends State<AlbumSearchPage> {
                                     context,
                                     PageRouteBuilder(
                                       opaque: false,
-                                      pageBuilder: (_, __, ___) =>
-                                          widget.type == 'Artists'
-                                              ? ArtistSearchPage(
-                                                  artistName:
-                                                      searchedList[index]
-                                                          ['title'],
-                                                  artistToken:
-                                                      searchedList[index]
-                                                          ['artistToken'],
-                                                )
-                                              : AlbumSongsSearchPage(
-                                                  albumName: searchedList[index]
-                                                      ['title'],
-                                                  albumId: searchedList[index]
-                                                      ['id'],
-                                                  type: widget.type,
-                                                ),
+                                      pageBuilder: (_, __, ___) => widget
+                                                  .type ==
+                                              'Artists'
+                                          ? ArtistSearchPage(
+                                              artistName: searchedList[index]
+                                                  ['title'],
+                                              artistToken: searchedList[index]
+                                                  ['artistToken'],
+                                            )
+                                          : SongsListPage(
+                                              listItem: searchedList[index]),
                                     ),
                                   );
                                 },

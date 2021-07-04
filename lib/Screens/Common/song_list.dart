@@ -7,53 +7,53 @@ import 'package:flutter/material.dart';
 import 'package:blackhole/CustomWidgets/emptyScreen.dart';
 import 'package:blackhole/CustomWidgets/miniplayer.dart';
 import 'package:blackhole/APIs/api.dart';
+import 'package:html_unescape/html_unescape_small.dart';
 
-class AlbumSongsSearchPage extends StatefulWidget {
-  final String albumName;
-  final String albumId;
-  final String type;
+class SongsListPage extends StatefulWidget {
+  final Map listItem;
 
-  AlbumSongsSearchPage({
+  SongsListPage({
     Key key,
-    @required this.albumId,
-    @required this.type,
-    this.albumName,
+    @required this.listItem,
   }) : super(key: key);
 
   @override
-  _AlbumSongsSearchPageState createState() => _AlbumSongsSearchPageState();
+  _SongsListPageState createState() => _SongsListPageState();
 }
 
-class _AlbumSongsSearchPageState extends State<AlbumSongsSearchPage> {
+class _SongsListPageState extends State<SongsListPage> {
   bool status = false;
-  List searchedList = [];
+  List songList = [];
   bool fetched = false;
+  HtmlUnescape unescape = HtmlUnescape();
 
   @override
   Widget build(BuildContext context) {
     if (!status) {
       status = true;
-      switch (widget.type) {
-        case 'Songs':
-          Search().fetchSongSearchResults(widget.albumId, '20').then((value) {
+      switch (widget.listItem['type']) {
+        case 'song':
+          SaavnAPI()
+              .fetchSongSearchResults(widget.listItem['id'], '20')
+              .then((value) {
             setState(() {
-              searchedList = value;
+              songList = value;
               fetched = true;
             });
           });
           break;
-        case 'Albums':
-          Search().fetchAlbumSongs(widget.albumId).then((value) {
+        case 'album':
+          SaavnAPI().fetchAlbumSongs(widget.listItem['id']).then((value) {
             setState(() {
-              searchedList = value;
+              songList = value;
               fetched = true;
             });
           });
           break;
-        case 'Playlists':
-          Search().fetchPlaylistSongs(widget.albumId).then((value) {
+        case 'playlist':
+          SaavnAPI().fetchPlaylistSongs(widget.listItem['id']).then((value) {
             setState(() {
-              searchedList = value;
+              songList = value;
               fetched = true;
             });
           });
@@ -69,7 +69,8 @@ class _AlbumSongsSearchPageState extends State<AlbumSongsSearchPage> {
             child: Scaffold(
               backgroundColor: Colors.transparent,
               appBar: AppBar(
-                title: Text(widget.albumName ?? 'Songs'),
+                title:
+                    Text(unescape.convert(widget.listItem['title'] ?? 'Songs')),
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
                 textTheme: Theme.of(context).textTheme,
@@ -89,11 +90,11 @@ class _AlbumSongsSearchPageState extends State<AlbumSongsSearchPage> {
                             )),
                       ),
                     )
-                  : searchedList.isEmpty
+                  : songList.isEmpty
                       ? EmptyScreen().emptyScreen(context, 0, ":( ", 100,
                           "SORRY", 60, "Results Not Found", 20)
                       : ListView.builder(
-                          itemCount: searchedList.length,
+                          itemCount: songList.length,
                           physics: BouncingScrollPhysics(),
                           shrinkWrap: true,
                           padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
@@ -103,12 +104,12 @@ class _AlbumSongsSearchPageState extends State<AlbumSongsSearchPage> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.only(left: 15.0),
                                 title: Text(
-                                  '${searchedList[index]["title"]}',
+                                  '${songList[index]["title"]}',
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontWeight: FontWeight.w500),
                                 ),
                                 subtitle: Text(
-                                  '${searchedList[index]["subtitle"]}',
+                                  '${songList[index]["subtitle"]}',
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 leading: Card(
@@ -121,14 +122,14 @@ class _AlbumSongsSearchPageState extends State<AlbumSongsSearchPage> {
                                       image: AssetImage('assets/cover.jpg'),
                                     ),
                                     imageUrl:
-                                        '${searchedList[index]["image"].replaceAll('http:', 'https:')}',
+                                        '${songList[index]["image"].replaceAll('http:', 'https:')}',
                                     placeholder: (context, url) => Image(
                                       image: AssetImage('assets/cover.jpg'),
                                     ),
                                   ),
                                 ),
                                 trailing: DownloadButton(
-                                  data: searchedList[index],
+                                  data: songList[index],
                                   icon: 'download',
                                 ),
                                 onTap: () {
@@ -138,7 +139,7 @@ class _AlbumSongsSearchPageState extends State<AlbumSongsSearchPage> {
                                       opaque: false,
                                       pageBuilder: (_, __, ___) => PlayScreen(
                                         data: {
-                                          'response': searchedList,
+                                          'response': songList,
                                           'index': index,
                                           'offline': false,
                                         },
