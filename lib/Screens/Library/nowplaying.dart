@@ -1,12 +1,13 @@
 import 'dart:io';
+
 import 'package:audio_service/audio_service.dart';
-import 'package:blackhole/CustomWidgets/gradientContainers.dart';
 import 'package:blackhole/CustomWidgets/downloadButton.dart';
 import 'package:blackhole/CustomWidgets/emptyScreen.dart';
+import 'package:blackhole/CustomWidgets/gradientContainers.dart';
 import 'package:blackhole/CustomWidgets/like_button.dart';
+import 'package:blackhole/CustomWidgets/miniplayer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:blackhole/CustomWidgets/miniplayer.dart';
 
 class NowPlaying extends StatefulWidget {
   @override
@@ -86,55 +87,59 @@ class _NowPlayingState extends State<NowPlaying> {
                                                               .zoomBackground
                                                         ],
                                                         background: ShaderMask(
-                                                          shaderCallback:
-                                                              (rect) {
-                                                            return LinearGradient(
-                                                              begin: Alignment
-                                                                  .topCenter,
-                                                              end: Alignment
-                                                                  .bottomCenter,
-                                                              colors: [
-                                                                Colors.black,
-                                                                Colors
-                                                                    .transparent
-                                                              ],
-                                                            ).createShader(
-                                                                Rect.fromLTRB(
-                                                                    0,
-                                                                    0,
-                                                                    rect.width,
-                                                                    rect.height));
-                                                          },
-                                                          blendMode:
-                                                              BlendMode.dstIn,
-                                                          child:  mediaItem
-                                                                          .artUri
-                                                                          .toString()
-                                                                          .startsWith(
-                                                                              'file:')
-                                                                      ? Image(
-                                                                          image: FileImage(File(mediaItem
-                                                                              .artUri
-                                                                              .toFilePath())),
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        )
-                                                                      : CachedNetworkImage(
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                          errorWidget: (BuildContext context, _, __) =>
-                                                                              Image(
-                                                                                image: AssetImage('assets/cover.jpg'),
-                                                                              ),
-                                                                          placeholder: (BuildContext context, _) =>
-                                                                              Image(
-                                                                                image: AssetImage('assets/cover.jpg'),
-                                                                              ),
-                                                                          imageUrl: mediaItem
-                                                                              .artUri
-                                                                              .toString())
-                                                            
-                                                        ),
+                                                            shaderCallback:
+                                                                (rect) {
+                                                              return LinearGradient(
+                                                                begin: Alignment
+                                                                    .topCenter,
+                                                                end: Alignment
+                                                                    .bottomCenter,
+                                                                colors: [
+                                                                  Colors.black,
+                                                                  Colors
+                                                                      .transparent
+                                                                ],
+                                                              ).createShader(
+                                                                  Rect.fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      rect.width,
+                                                                      rect.height));
+                                                            },
+                                                            blendMode:
+                                                                BlendMode.dstIn,
+                                                            child: mediaItem
+                                                                    .artUri
+                                                                    .toString()
+                                                                    .startsWith(
+                                                                        'file:')
+                                                                ? Image(
+                                                                    image: FileImage(File(
+                                                                        mediaItem
+                                                                            .artUri
+                                                                            .toFilePath())),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  )
+                                                                : CachedNetworkImage(
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    errorWidget:
+                                                                        (BuildContext context,
+                                                                                _,
+                                                                                __) =>
+                                                                            Image(
+                                                                              image: AssetImage('assets/cover.jpg'),
+                                                                            ),
+                                                                    placeholder:
+                                                                        (BuildContext context,
+                                                                                _) =>
+                                                                            Image(
+                                                                              image: AssetImage('assets/cover.jpg'),
+                                                                            ),
+                                                                    imageUrl: mediaItem
+                                                                        .artUri
+                                                                        .toString())),
                                                       ),
                                                     ),
                                                     SliverList(
