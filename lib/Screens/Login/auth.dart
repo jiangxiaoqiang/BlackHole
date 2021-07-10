@@ -1,10 +1,11 @@
 import 'dart:ui';
+
 import 'package:blackhole/CustomWidgets/gradientContainers.dart';
+import 'package:device_info/device_info.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:package_info/package_info.dart';
-import 'package:device_info/device_info.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -16,11 +17,19 @@ class _AuthScreenState extends State<AuthScreen> {
   Map deviceInfo = {};
   String gender = "male";
   final dbRef = FirebaseDatabase.instance.reference().child("Users");
+  TextEditingController controller;
 
   @override
   void initState() {
     main();
     super.initState();
+    controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   void main() async {
@@ -73,7 +82,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
     return GradientContainer(
       child: Stack(
         children: [
@@ -165,6 +173,9 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         child: TextField(
                             controller: controller,
+                            textAlignVertical: TextAlignVertical.center,
+                            textCapitalization: TextCapitalization.sentences,
+                            keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
