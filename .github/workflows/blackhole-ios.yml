@@ -1,4 +1,4 @@
-name: BlackHole
+name: BlackHole-iOS-CI
 
 on:
   push:

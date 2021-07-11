@@ -1,4 +1,4 @@
-name: CI
+name: BlackHole-Android-CI
 
 on:
   push:
