@@ -1,5 +1,6 @@
 import 'package:blackhole/APIs/api.dart';
 import 'package:des_plugin/des_plugin.dart';
+import 'package:hive/hive.dart';
 
 class FormatResponse {
   String capitalize(String msg) {
@@ -39,6 +40,10 @@ class FormatResponse {
   }
 
   Future<Map> formatSingleSongResponse(Map response) async {
+    Map cachedSong = Hive.box('songDetails').get(response['id']);
+    if (cachedSong != null) {
+      return cachedSong;
+    }
     try {
       List artistNames = [];
       if (response['more_info']["artistMap"]['primary_artists'] == null ||
@@ -96,6 +101,7 @@ class FormatResponse {
             "38346591", response["more_info"]["encrypted_media_url"])
       };
       info["url"] = info["url"].replaceAll("http:", "https:");
+      Hive.box('songDetails').put(response['id'], info);
       return info;
     } catch (e) {
       return {"Error": e};
@@ -398,15 +404,20 @@ class FormatResponse {
 
   Future<Map> formatHomePageData(Map data) async {
     try {
-      data["new_trending"] = await formatSongsInList(data["new_trending"]);
+      data["new_trending"] =
+          await formatSongsInList(data["new_trending"], false);
       List promoList = [];
+      List promoListTemp = [];
       data["modules"].forEach((k, v) {
         if (k.startsWith('promo')) {
-          promoList.add(k.toString());
+          if (data[k][0]['type'] == 'song' && data[k][0]['mini_obj'] ?? false)
+            promoListTemp.add(k.toString());
+          else
+            promoList.add(k.toString());
         }
       });
       for (int i = 0; i < promoList.length; i++) {
-        data[promoList[i]] = await formatSongsInList(data[promoList[i]]);
+        data[promoList[i]] = await formatSongsInList(data[promoList[i]], false);
       }
       data["collections"] = [
         "new_trending",
@@ -417,19 +428,43 @@ class FormatResponse {
         // "artist_recos",
         ...promoList
       ];
+      data['collections_temp'] = promoListTemp;
     } catch (err) {
       print(err);
     }
     return data;
   }
 
-  Future<List> formatSongsInList(List list) async {
+  Future<Map> formatPromoLists(Map data) async {
+    try {
+      List promoList = data['collections_temp'];
+      for (int i = 0; i < promoList.length; i++) {
+        data[promoList[i]] = await formatSongsInList(data[promoList[i]], true);
+      }
+      data['collections'].addAll(promoList);
+      data['collections_temp'] = [];
+    } catch (err) {
+      print(err);
+    }
+    return data;
+  }
+
+  Future<List> formatSongsInList(List list, bool fetchDetails) async {
     if (list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {
-        if (list[i]["type"] == "song") {
-          list[i] = list[i]["mini_obj"] != null
-              ? await SaavnAPI().fetchSongDetails(list[i]["id"])
-              : await formatSingleSongResponse(list[i]);
+        Map item = list[i];
+        if (item["type"] == "song") {
+          if (item["mini_obj"] ?? false) {
+            if (fetchDetails) {
+              Map cachedDetails = Hive.box('songDetails').get(item['id']);
+              if (cachedDetails == null) {
+                cachedDetails = await SaavnAPI().fetchSongDetails(item['id']);
+              }
+              list[i] = cachedDetails;
+            }
+            continue;
+          }
+          list[i] = await formatSingleSongResponse(item);
         }
       }
     }

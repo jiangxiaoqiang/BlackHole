@@ -62,6 +62,26 @@ void main() async {
     await Hive.openBox("recentlyPlayed");
   }
   try {
+    final box = await Hive.openBox('songDetails');
+    // clear box if it grows large
+    // each song detail is about 3.9KB so it's <5MB
+    if (box.length > 1200) {
+      box.clear();
+    }
+    await Hive.openBox('songDetails');
+  } catch (e) {
+    print('Failed to open songDetails Box');
+    print("Error: $e");
+    var dir = await getApplicationDocumentsDirectory();
+    String dirPath = dir.path;
+    String boxName = "songDetails";
+    File dbFile = File('$dirPath/$boxName.hive');
+    File lockFile = File('$dirPath/$boxName.lock');
+    await dbFile.delete();
+    await lockFile.delete();
+    await Hive.openBox("songDetails");
+  }
+  try {
     await Firebase.initializeApp();
   } catch (e) {
     print('Failed to initialize Firebase');
