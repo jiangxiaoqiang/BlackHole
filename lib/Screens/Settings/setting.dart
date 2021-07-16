@@ -1,7 +1,10 @@
 import 'package:blackhole/Helpers/countrycodes.dart';
 import 'package:blackhole/CustomWidgets/gradientContainers.dart';
 import 'package:blackhole/Helpers/picker.dart';
+<<<<<<< HEAD
 import 'package:blackhole/Helpers/proxy.dart';
+=======
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
 import 'package:blackhole/Screens/Top Charts/top.dart' as topScreen;
 import 'package:blackhole/Screens/Home/saavn.dart' as homeScreen;
 import 'package:ext_storage/ext_storage.dart';
@@ -627,7 +630,12 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                       ListTile(
                         title: Text('Card Color'),
+<<<<<<< HEAD
                         subtitle: Text('Color of Search Bar, Cards'),
+=======
+                        subtitle:
+                            Text('Color of Search Bar, Alert Dialogs, Cards'),
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                         onTap: () {},
                         trailing: DropdownButton(
                           value: cardColor,
@@ -923,6 +931,7 @@ class _SettingPageState extends State<SettingPage> {
                         dense: true,
                       ),
                       ListTile(
+<<<<<<< HEAD
                         title: Text('Download Quality'),
                         subtitle: Text('Higher quality uses more disk space'),
                         onTap: () {},
@@ -1003,6 +1012,8 @@ class _SettingPageState extends State<SettingPage> {
                         dense: true,
                       ),
                       ListTile(
+=======
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                           title: Text('Search Location'),
                           subtitle: Text('Locations to search for local music'),
                           dense: true,
@@ -1118,6 +1129,118 @@ class _SettingPageState extends State<SettingPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
                 child: Text(
+<<<<<<< HEAD
+=======
+                  'Download',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5.0, 0, 5, 10),
+                child: GradientCard(
+                  child: Column(children: [
+                    ListTile(
+                      title: Text('Download Quality'),
+                      subtitle: Text('Higher quality uses more disk space'),
+                      onTap: () {},
+                      trailing: DropdownButton(
+                        value: downloadQuality ?? '320 kbps',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).textTheme.bodyText1.color,
+                        ),
+                        underline: SizedBox(),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            downloadQuality = newValue;
+                            Hive.box('settings')
+                                .put('downloadQuality', newValue);
+                            updateUserDetails('downloadQuality', newValue);
+                          });
+                        },
+                        items: <String>['96 kbps', '160 kbps', '320 kbps']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      dense: true,
+                    ),
+                    SwitchListTile(
+                        activeColor: Theme.of(context).accentColor,
+                        title: Text('Download Lyrics'),
+                        subtitle: Text('Default: Off'),
+                        dense: true,
+                        value: settingsBox.get('downloadLyrics',
+                            defaultValue: false),
+                        onChanged: (val) {
+                          settingsBox.put('downloadLyrics', val);
+                          setState(() {});
+                        }),
+                    ListTile(
+                      title: Text('Download Location'),
+                      subtitle: Text('$downloadPath'),
+                      trailing: TextButton(
+                        child: Text('Reset'),
+                        style: TextButton.styleFrom(
+                          primary:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.grey[700],
+                          //       backgroundColor: Theme.of(context).accentColor,
+                        ),
+                        onPressed: () async {
+                          downloadPath = await ExtStorage
+                              .getExternalStoragePublicDirectory(
+                                  ExtStorage.DIRECTORY_MUSIC);
+                          Hive.box('settings')
+                              .put('downloadPath', downloadPath);
+                          setState(() {});
+                        },
+                      ),
+                      onTap: () async {
+                        String temp = await Picker()
+                            .selectFolder(context, 'Select Download Location');
+                        if (temp.trim() != '') {
+                          downloadPath = temp;
+                          Hive.box('settings').put('downloadPath', temp);
+                          setState(() {});
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              elevation: 6,
+                              backgroundColor: Colors.grey[900],
+                              behavior: SnackBarBehavior.floating,
+                              content: Text(
+                                'No folder selected',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              action: SnackBarAction(
+                                textColor: Theme.of(context).accentColor,
+                                label: 'Ok',
+                                onPressed: () {},
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      dense: true,
+                    ),
+                  ]),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+                child: Text(
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                   'Others',
                   style: TextStyle(
                     fontSize: 20,
@@ -1187,6 +1310,7 @@ class _SettingPageState extends State<SettingPage> {
                         }),
                     SwitchListTile(
                         activeColor: Theme.of(context).accentColor,
+<<<<<<< HEAD
                         title: Text('Use Proxy'),
                         subtitle:
                             Text("Turn this on if you are NOT from India"),
@@ -1194,6 +1318,15 @@ class _SettingPageState extends State<SettingPage> {
                         value: useProxy,
                         onChanged: (val) {
                           val ? appProxy.enable() : appProxy.disable();
+=======
+                        title: Text('Use Proxy (Beta)'),
+                        subtitle: Text(
+                            "Turn this on if you are not from India and having issues like getting only Indian Songs. You can even use a VPN"),
+                        dense: true,
+                        isThreeLine: true,
+                        value: useProxy,
+                        onChanged: (val) {
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                           Hive.box('settings').put('useProxy', val);
                           useProxy = val;
                           updateUserDetails('useProxy', val);
@@ -1205,7 +1338,11 @@ class _SettingPageState extends State<SettingPage> {
                         subtitle: Text('Change Proxy IP and Port'),
                         dense: true,
                         trailing: Text(
+<<<<<<< HEAD
                           '${Hive.box('settings').get("proxyIp", defaultValue: "103.47.64.85")}:${Hive.box('settings').get("proxyPort", defaultValue: 8080)}',
+=======
+                          '${Hive.box('settings').get("proxyIp")}:${Hive.box('settings').get("proxyPort")}',
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                           style: TextStyle(fontSize: 12),
                         ),
                         onTap: () {
@@ -1213,12 +1350,19 @@ class _SettingPageState extends State<SettingPage> {
                             context: context,
                             builder: (BuildContext context) {
                               final _controller = TextEditingController(
+<<<<<<< HEAD
                                   text: settingsBox.get('proxyIp',
                                       defaultValue: "103.47.64.85"));
                               final _controller2 = TextEditingController(
                                   text: settingsBox
                                       .get('proxyPort', defaultValue: 8080)
                                       .toString());
+=======
+                                  text: settingsBox.get('proxyIp'));
+                              final _controller2 = TextEditingController(
+                                  text:
+                                      settingsBox.get('proxyPort').toString());
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                               return AlertDialog(
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,

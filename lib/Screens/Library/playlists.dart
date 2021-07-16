@@ -222,6 +222,13 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                             itemCount: playlistNames.length,
                             itemBuilder: (context, index) {
                               String name = playlistNames[index];
+<<<<<<< HEAD
+=======
+                              String showName =
+                                  playlistDetails.containsKey(name)
+                                      ? playlistDetails[name]["name"] ?? name
+                                      : name;
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                               return ListTile(
                                 leading: playlistDetails[name] == null ||
                                         playlistDetails[name]['imagesList'] ==
@@ -246,7 +253,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                             ['imagesList'],
                                         placeholderImage: 'assets/cover.jpg'),
                                 title: Text(
+<<<<<<< HEAD
                                   '${playlistDetails.containsKey(name) ? playlistDetails[name]["name"] ?? name : name}',
+=======
+                                  showName,
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: playlistDetails[name] == null ||
@@ -288,7 +299,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                           backgroundColor: Colors.grey[900],
                                           behavior: SnackBarBehavior.floating,
                                           content: Text(
+<<<<<<< HEAD
                                             'Deleted ${playlistDetails.containsKey(name) ? playlistDetails[name]["name"] ?? name : name}',
+=======
+                                            'Deleted $showName',
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ),
@@ -311,6 +326,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                       setState(() {});
                                     }
                                     if (value == 3) {
+<<<<<<< HEAD
                                       String testName = 'TestName2';
 
                                       playlistDetails[name] == null
@@ -323,6 +339,116 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                       await settingsBox.put(
                                           'playlistDetails', playlistDetails);
                                       setState(() {});
+=======
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          final _controller =
+                                              TextEditingController(
+                                                  text: showName);
+                                          return AlertDialog(
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Rename',
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .accentColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                                TextField(
+                                                    autofocus: true,
+                                                    textAlignVertical:
+                                                        TextAlignVertical
+                                                            .bottom,
+                                                    controller: _controller,
+                                                    onSubmitted: (value) async {
+                                                      Navigator.pop(context);
+                                                      playlistDetails[name] ==
+                                                              null
+                                                          ? playlistDetails
+                                                              .addAll({
+                                                              name: {
+                                                                "name":
+                                                                    value.trim()
+                                                              }
+                                                            })
+                                                          : playlistDetails[
+                                                                  name]
+                                                              .addAll({
+                                                              'name':
+                                                                  value.trim()
+                                                            });
+
+                                                      await settingsBox.put(
+                                                          'playlistDetails',
+                                                          playlistDetails);
+                                                      setState(() {});
+                                                    }),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                style: TextButton.styleFrom(
+                                                  primary: Theme.of(context)
+                                                              .brightness ==
+                                                          Brightness.dark
+                                                      ? Colors.white
+                                                      : Colors.grey[700],
+                                                ),
+                                                child: Text("Cancel"),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                              TextButton(
+                                                style: TextButton.styleFrom(
+                                                  primary: Colors.white,
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .accentColor,
+                                                ),
+                                                child: Text(
+                                                  "Ok",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                onPressed: () async {
+                                                  Navigator.pop(context);
+                                                  playlistDetails[name] == null
+                                                      ? playlistDetails.addAll({
+                                                          name: {
+                                                            "name": _controller
+                                                                .text
+                                                                .trim()
+                                                          }
+                                                        })
+                                                      : playlistDetails[name]
+                                                          .addAll({
+                                                          'name': _controller
+                                                              .text
+                                                              .trim()
+                                                        });
+
+                                                  await settingsBox.put(
+                                                      'playlistDetails',
+                                                      playlistDetails);
+                                                  setState(() {});
+                                                },
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                     }
                                   },
                                   itemBuilder: (context) => [

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import 'package:blackhole/CustomWidgets/custom_physics.dart';
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
 import 'package:blackhole/Helpers/countrycodes.dart';
 import 'package:blackhole/CustomWidgets/gradientContainers.dart';
 import 'package:blackhole/Screens/Home/saavn.dart';
@@ -127,6 +131,13 @@ class _HomePageState extends State<HomePage> {
           );
         }
       });
+<<<<<<< HEAD
+=======
+      if (Hive.box('settings').get('proxyIp') == null)
+        Hive.box('settings').put('proxyIp', "103.47.67.134");
+      if (Hive.box('settings').get('proxyPort') == null)
+        Hive.box('settings').put('proxyPort', 8080);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
       return SizedBox();
     } else {
       // print('platform not android or already checked');
@@ -303,6 +314,10 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Expanded(
                   child: PageView(
+<<<<<<< HEAD
+=======
+                    physics: CustomPhysics(),
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                     onPageChanged: (indx) {
                       setState(() {
                         _selectedIndex = indx;
@@ -717,7 +732,11 @@ class _HomePageState extends State<HomePage> {
 
                       SalomonBottomBarItem(
                         icon: Icon(Icons.trending_up_rounded),
+<<<<<<< HEAD
                         title: Text("Spotify Top Charts"),
+=======
+                        title: Text("Spotify Charts"),
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                         selectedColor: Theme.of(context).accentColor,
                       ),
                       SalomonBottomBarItem(

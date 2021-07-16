@@ -8,6 +8,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+<<<<<<< HEAD
 
 class AudioPlayerTask extends BackgroundAudioTask {
   AudioPlayer _player = AudioPlayer(
@@ -15,6 +16,27 @@ class AudioPlayerTask extends BackgroundAudioTask {
     androidApplyAudioAttributes: true,
     handleAudioSessionActivation: true,
   );
+=======
+import 'package:rxdart/rxdart.dart';
+
+class AudioPlayerTask extends BackgroundAudioTask {
+  final _equalizer = AndroidEqualizer();
+  AudioPlayer _player;
+
+  setAudioPlayer() {
+    _player = AudioPlayer(
+      handleInterruptions: true,
+      androidApplyAudioAttributes: true,
+      handleAudioSessionActivation: true,
+      audioPipeline: AudioPipeline(
+        androidAudioEffects: [
+          _equalizer,
+        ],
+      ),
+    );
+  }
+
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
   Timer _sleepTimer;
   StreamSubscription<PlaybackEvent> _eventSubscription;
   String preferredQuality;
@@ -117,6 +139,10 @@ class AudioPlayerTask extends BackgroundAudioTask {
     offline = params['offline'];
     preferredQuality = params['quality'];
     await initiateBox();
+<<<<<<< HEAD
+=======
+    await setAudioPlayer();
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
 
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration.music());
@@ -171,7 +197,11 @@ class AudioPlayerTask extends BackgroundAudioTask {
           .toList(),
     );
     await _player.setAudioSource(concatenatingAudioSource);
+<<<<<<< HEAD
     _player.seek(Duration.zero, index: index);
+=======
+    await _player.seek(Duration.zero, index: index);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     queue = _queue;
   }
 
@@ -239,6 +269,13 @@ class AudioPlayerTask extends BackgroundAudioTask {
       onReorderQueue(myVariable[0], myVariable[1]);
     }
 
+<<<<<<< HEAD
+=======
+    if (myFunction == 'setEqualizer') {
+      _equalizer.setEnabled((myVariable[0]));
+    }
+
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     return Future.value(true);
   }
 
@@ -272,8 +309,13 @@ class AudioPlayerTask extends BackgroundAudioTask {
         break;
       case AudioServiceShuffleMode.all:
         defaultQueue = queue;
+<<<<<<< HEAD
         _player.setShuffleModeEnabled(true);
         _player.shuffle();
+=======
+        await _player.setShuffleModeEnabled(true);
+        await _player.shuffle();
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
         _player.sequenceStateStream
             .map((state) => state?.effectiveSequence)
             .distinct()
@@ -285,6 +327,54 @@ class AudioPlayerTask extends BackgroundAudioTask {
   }
 
   @override
+<<<<<<< HEAD
+=======
+  Future<void> onClick(MediaButton button) {
+    switch (button) {
+      case MediaButton.next:
+        onSkipToNext();
+        break;
+      case MediaButton.previous:
+        onSkipToPrevious();
+        break;
+      case MediaButton.media:
+        _handleMediaActionPressed();
+        break;
+    }
+    return Future.value();
+  }
+
+  BehaviorSubject<int> _tappedMediaActionNumber;
+  Timer _timer;
+
+  void _handleMediaActionPressed() {
+    if (_timer == null) {
+      _tappedMediaActionNumber = BehaviorSubject.seeded(1);
+      _timer = Timer(Duration(milliseconds: 600), () {
+        final tappedNumber = _tappedMediaActionNumber.value;
+        if (tappedNumber == 1) {
+          if (AudioServiceBackground.state.playing)
+            onPause();
+          else
+            onPlay();
+        } else if (tappedNumber == 2) {
+          onSkipToNext();
+        } else {
+          onSkipToPrevious();
+        }
+
+        _tappedMediaActionNumber.close();
+        _timer.cancel();
+        _timer = null;
+      });
+    } else {
+      final current = _tappedMediaActionNumber.value;
+      _tappedMediaActionNumber.add(current + 1);
+    }
+  }
+
+  @override
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
   Future<void> onPause() => _player.pause();
 
   @override

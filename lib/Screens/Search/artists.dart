@@ -51,8 +51,13 @@ class _ArtistSearchPageState extends State<ArtistSearchPage> {
                 ? Container(
                     child: Center(
                       child: Container(
+<<<<<<< HEAD
                           height: MediaQuery.of(context).size.width / 6,
                           width: MediaQuery.of(context).size.width / 6,
+=======
+                          height: MediaQuery.of(context).size.width / 7,
+                          width: MediaQuery.of(context).size.width / 7,
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                           child: CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 Theme.of(context).accentColor),

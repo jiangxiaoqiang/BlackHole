@@ -1,7 +1,15 @@
 import 'dart:convert';
+<<<<<<< HEAD
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:blackhole/Helpers/format.dart';
+=======
+import 'dart:io';
+import 'package:hive/hive.dart';
+import 'package:http/http.dart';
+import 'package:blackhole/Helpers/format.dart';
+import 'package:http/io_client.dart';
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
 
 class SaavnAPI {
   List preferredLanguages = Hive.box('settings')
@@ -9,8 +17,15 @@ class SaavnAPI {
   Map<String, String> headers = {};
   String baseUrl = "www.jiosaavn.com";
   String apiStr = "/api.php?_format=json&_marker=0&api_version=4&ctx=web6dot0";
+<<<<<<< HEAD
 
   Future<Response> getResponse(String params, bool usev4) async {
+=======
+  Box settingsBox = Hive.box('settings');
+
+  Future<Response> getResponse(String params,
+      {bool usev4 = true, bool useProxy = false}) async {
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     Uri url;
     if (!usev4)
       url = Uri.https(
@@ -22,6 +37,23 @@ class SaavnAPI {
     String languageHeader = 'L=' + preferredLanguages.join('%2C');
     headers = {"cookie": languageHeader, "Accept": "*/*"};
 
+<<<<<<< HEAD
+=======
+    useProxy = useProxy && settingsBox.get('useProxy', defaultValue: false);
+    if (useProxy) {
+      final proxyIP = settingsBox.get("proxyIp");
+      final proxyPort = settingsBox.get("proxyPort");
+      HttpClient httpClient = new HttpClient();
+      httpClient.findProxy = (uri) {
+        return "PROXY $proxyIP:$proxyPort;";
+      };
+      httpClient.badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => Platform.isAndroid);
+      IOClient myClient = IOClient(httpClient);
+      return await myClient.get(url, headers: headers);
+    }
+
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     return await get(url, headers: headers);
   }
 
@@ -29,7 +61,11 @@ class SaavnAPI {
     String params = "__call=webapi.getLaunchData";
     Map result;
     try {
+<<<<<<< HEAD
       final res = await getResponse(params, true);
+=======
+      final res = await getResponse(params);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
       if (res.statusCode == 200) {
         final data = json.decode(res.body);
         result = await FormatResponse().formatHomePageData(data);
@@ -44,7 +80,11 @@ class SaavnAPI {
     List result = [];
     String params = "__call=content.getTopSearches";
     try {
+<<<<<<< HEAD
       final res = await getResponse(params, true);
+=======
+      final res = await getResponse(params, useProxy: true);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
       if (res.statusCode == 200) {
         final List getMain = json.decode(res.body);
         result = getMain.map((element) {
@@ -60,7 +100,11 @@ class SaavnAPI {
     String params = "p=1&q=$searchQuery&n=$count&__call=search.getResults";
 
     try {
+<<<<<<< HEAD
       final res = await getResponse(params, true);
+=======
+      final res = await getResponse(params, useProxy: true);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
       if (res.statusCode == 200) {
         final getMain = json.decode(res.body);
         List responseList = getMain["results"];
@@ -82,7 +126,11 @@ class SaavnAPI {
     String params =
         "__call=autocomplete.get&cc=in&includeMetaTags=1&query=$searchQuery";
 
+<<<<<<< HEAD
     final res = await getResponse(params, false);
+=======
+    final res = await getResponse(params, usev4: false, useProxy: true);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body);
       List albumResponseList = getMain["albums"]["data"];
@@ -152,7 +200,11 @@ class SaavnAPI {
     if (type == 'artist')
       params = "p=1&q=$searchQuery&n=20&__call=search.getArtistResults";
 
+<<<<<<< HEAD
     final res = await getResponse(params, true);
+=======
+    final res = await getResponse(params);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body);
       List responseList = getMain["results"];
@@ -165,7 +217,11 @@ class SaavnAPI {
   Future<List> fetchAlbumSongs(String albumId) async {
     List searchedList = [];
     String params = "__call=content.getAlbumDetails&cc=in&albumid=$albumId";
+<<<<<<< HEAD
     final res = await getResponse(params, true);
+=======
+    final res = await getResponse(params);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body);
       List responseList = getMain["list"];
@@ -179,7 +235,11 @@ class SaavnAPI {
     Map<String, List> data = {};
     String params =
         "__call=webapi.get&type=artist&p=&n_song=50&n_album=50&sub_type=&category=&sort_order=&includeMetaTags=0&token=$artistToken";
+<<<<<<< HEAD
     final res = await getResponse(params, true);
+=======
+    final res = await getResponse(params);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body);
       List topSongsResponseList = getMain["topSongs"];
@@ -234,7 +294,11 @@ class SaavnAPI {
   Future<List> fetchPlaylistSongs(String playlistId) async {
     List searchedList = [];
     String params = "__call=playlist.getDetails&cc=in&listid=$playlistId";
+<<<<<<< HEAD
     final res = await getResponse(params, true);
+=======
+    final res = await getResponse(params);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body);
       List responseList = getMain["list"];
@@ -247,7 +311,11 @@ class SaavnAPI {
   Future<List> fetchTopSearchResult(String searchQuery) async {
     List searchedList = [];
     String params = "p=1&q=$searchQuery&n=10&__call=search.getResults";
+<<<<<<< HEAD
     final res = await getResponse(params, true);
+=======
+    final res = await getResponse(params, useProxy: true);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body);
       List responseList = getMain["results"];
@@ -261,7 +329,11 @@ class SaavnAPI {
     Map result;
     String params = "pids=$songId&__call=song.getDetails";
     try {
+<<<<<<< HEAD
       final res = await getResponse(params, true);
+=======
+      final res = await getResponse(params);
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
       if (res.statusCode == 200) {
         final data = json.decode(res.body);
         result =

@@ -1,7 +1,30 @@
+<<<<<<< HEAD
 import 'dart:io';
 import 'package:blackhole/Helpers/config.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:blackhole/Helpers/proxy.dart';
+=======
+/*
+ * Copyright (c) 2021 Ankit Sangwan
+ *
+ * BlackHole is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * BlackHole is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import 'dart:io';
+import 'package:blackhole/Helpers/config.dart';
+import 'package:audio_service/audio_service.dart';
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
 import 'package:blackhole/Screens/Library/nowplaying.dart';
 import 'package:blackhole/Screens/Library/playlists.dart';
 import 'package:blackhole/Screens/Library/recent.dart';
@@ -87,10 +110,13 @@ void main() async {
     print('Failed to initialize Firebase');
   }
 
+<<<<<<< HEAD
   if (Hive.box('settings').get('useProxy', defaultValue: false)) {
     appProxy.enable();
   }
 
+=======
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
   Paint.enableDithering = true;
   runApp(MyApp());
 }
@@ -124,6 +150,10 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       title: 'BlackHole',
+<<<<<<< HEAD
+=======
+      // debugShowCheckedModeBanner: false,
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
       themeMode: currentTheme.currentTheme(), //system,
       theme: ThemeData(
         textSelectionTheme: TextSelectionThemeData(
@@ -157,6 +187,10 @@ class _MyAppState extends State<MyApp> {
         appBarTheme: AppBarTheme(color: currentTheme.getCanvasColor()),
         canvasColor: currentTheme.getCanvasColor(),
         cardColor: currentTheme.getCardColor(),
+<<<<<<< HEAD
+=======
+        dialogBackgroundColor: currentTheme.getCardColor(),
+>>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
         accentColor: currentTheme.currentColor(),
       ),
       routes: {
