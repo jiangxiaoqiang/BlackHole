@@ -40,3 +40,4 @@ jobs:
           cd ./ios
           pod repo update
           pod install
+      - run: flutter build ios --release --no-codesign --no-sound-null-safety
