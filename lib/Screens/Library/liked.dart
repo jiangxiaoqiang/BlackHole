@@ -1,8 +1,5 @@
 import 'package:blackhole/CustomWidgets/collage.dart';
-<<<<<<< HEAD
-=======
 import 'package:blackhole/CustomWidgets/custom_physics.dart';
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
 import 'package:blackhole/CustomWidgets/downloadButton.dart';
 import 'package:blackhole/CustomWidgets/emptyScreen.dart';
 import 'package:blackhole/CustomWidgets/gradientContainers.dart';
@@ -457,13 +454,8 @@ class _LikedSongsState extends State<LikedSongs>
                     ? Container(
                         child: Center(
                           child: Container(
-<<<<<<< HEAD
-                              height: MediaQuery.of(context).size.width / 6,
-                              width: MediaQuery.of(context).size.width / 6,
-=======
                               height: MediaQuery.of(context).size.width / 7,
                               width: MediaQuery.of(context).size.width / 7,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                     Theme.of(context).accentColor),
@@ -472,10 +464,7 @@ class _LikedSongsState extends State<LikedSongs>
                         ),
                       )
                     : TabBarView(
-<<<<<<< HEAD
-=======
                         physics: CustomPhysics(),
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                         controller: _tcontroller,
                         children: [
                           _songs.length == 0
@@ -493,10 +482,7 @@ class _LikedSongsState extends State<LikedSongs>
                                   padding: EdgeInsets.only(top: 10, bottom: 10),
                                   shrinkWrap: true,
                                   itemCount: _songs.length,
-<<<<<<< HEAD
-=======
                                   itemExtent: 70.0,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                         leading: Card(
@@ -631,10 +617,7 @@ class _LikedSongsState extends State<LikedSongs>
             padding: EdgeInsets.only(top: 20, bottom: 10),
             shrinkWrap: true,
             itemCount: sortedAlbumKeysList.length,
-<<<<<<< HEAD
-=======
             itemExtent: 70.0,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
             itemBuilder: (context, index) {
               return ListTile(
                 leading: Collage(
@@ -677,10 +660,7 @@ class _LikedSongsState extends State<LikedSongs>
             padding: EdgeInsets.only(top: 20, bottom: 10),
             shrinkWrap: true,
             itemCount: sortedArtistKeysList.length,
-<<<<<<< HEAD
-=======
             itemExtent: 70.0,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
             itemBuilder: (context, index) {
               return ListTile(
                 leading: Collage(
@@ -721,10 +701,7 @@ class _LikedSongsState extends State<LikedSongs>
             padding: EdgeInsets.only(top: 20, bottom: 10),
             shrinkWrap: true,
             itemCount: sortedGenreKeysList.length,
-<<<<<<< HEAD
-=======
             itemExtent: 70.0,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
             itemBuilder: (context, index) {
               return ListTile(
                 leading: Collage(

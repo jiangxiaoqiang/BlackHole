@@ -20,12 +20,8 @@ class _LibraryPageState extends State<LibraryPage> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return Column(
-=======
     return ListView(
       physics: BouncingScrollPhysics(),
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
       children: [
         AppBar(
           title: Text(

@@ -170,13 +170,8 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                       ? Container(
                           child: Center(
                             child: Container(
-<<<<<<< HEAD
-                                height: MediaQuery.of(context).size.width / 6,
-                                width: MediaQuery.of(context).size.width / 6,
-=======
                                 height: MediaQuery.of(context).size.width / 7,
                                 width: MediaQuery.of(context).size.width / 7,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                       Theme.of(context).accentColor),
@@ -303,10 +298,6 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                               ],
                                             ),
                                             onTap: () async {
-<<<<<<< HEAD
-                                              print('pressed');
-=======
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                               setState(() {
                                                 done = false;
                                               });
@@ -394,20 +385,12 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width /
-<<<<<<< HEAD
-                                                            6,
-=======
                                                             7,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                                     width:
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width /
-<<<<<<< HEAD
-                                                            6,
-=======
                                                             7,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                                     child:
                                                         CircularProgressIndicator(
                                                       valueColor:

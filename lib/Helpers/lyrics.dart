@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import 'package:http/http.dart';
-
-class Lyrics {
-=======
 import 'dart:convert';
 
 import 'package:audiotagger/audiotagger.dart';
@@ -31,7 +26,6 @@ class Lyrics {
     return tags.lyrics ?? '';
   }
 
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
   Future<String> getLyricsLink(String song, String artist) async {
     String authority = "www.musixmatch.com";
     String unencodedPath = '/search/' + song + ' ' + artist;

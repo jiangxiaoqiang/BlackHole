@@ -222,13 +222,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                             itemCount: playlistNames.length,
                             itemBuilder: (context, index) {
                               String name = playlistNames[index];
-<<<<<<< HEAD
-=======
                               String showName =
                                   playlistDetails.containsKey(name)
                                       ? playlistDetails[name]["name"] ?? name
                                       : name;
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                               return ListTile(
                                 leading: playlistDetails[name] == null ||
                                         playlistDetails[name]['imagesList'] ==
@@ -253,11 +250,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                             ['imagesList'],
                                         placeholderImage: 'assets/cover.jpg'),
                                 title: Text(
-<<<<<<< HEAD
-                                  '${playlistDetails.containsKey(name) ? playlistDetails[name]["name"] ?? name : name}',
-=======
                                   showName,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: playlistDetails[name] == null ||
@@ -299,11 +292,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                           backgroundColor: Colors.grey[900],
                                           behavior: SnackBarBehavior.floating,
                                           content: Text(
-<<<<<<< HEAD
-                                            'Deleted ${playlistDetails.containsKey(name) ? playlistDetails[name]["name"] ?? name : name}',
-=======
                                             'Deleted $showName',
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ),
@@ -326,20 +315,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                       setState(() {});
                                     }
                                     if (value == 3) {
-<<<<<<< HEAD
-                                      String testName = 'TestName2';
-
-                                      playlistDetails[name] == null
-                                          ? playlistDetails.addAll({
-                                              name: {"name": testName}
-                                            })
-                                          : playlistDetails[name]
-                                              .addAll({'name': testName});
-
-                                      await settingsBox.put(
-                                          'playlistDetails', playlistDetails);
-                                      setState(() {});
-=======
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -448,7 +423,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                           );
                                         },
                                       );
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                                     }
                                   },
                                   itemBuilder: (context) => [

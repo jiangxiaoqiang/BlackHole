@@ -61,10 +61,7 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                       padding: EdgeInsets.only(top: 10, bottom: 10),
                       shrinkWrap: true,
                       itemCount: _songs.length,
-<<<<<<< HEAD
-=======
                       itemExtent: 70.0,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                       itemBuilder: (context, index) {
                         return _songs.length == 0
                             ? SizedBox()

@@ -102,11 +102,7 @@ class _SaavnHomePageState extends State<SaavnHomePage> {
                         ],
                       ),
                       SizedBox(
-<<<<<<< HEAD
-                        height: MediaQuery.of(context).size.height / 4 + 5,
-=======
                         height: MediaQuery.of(context).size.height / 4 + 10,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,

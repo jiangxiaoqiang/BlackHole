@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 import 'package:blackhole/CustomWidgets/custom_physics.dart';
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
 import 'package:blackhole/CustomWidgets/emptyScreen.dart';
 import 'package:blackhole/Screens/Search/search.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -81,10 +78,7 @@ class _TopChartsState extends State<TopCharts> {
             ),
           ),
           body: TabBarView(
-<<<<<<< HEAD
-=======
             physics: CustomPhysics(),
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
             children: [
               TopPage(
                 region: widget.region,
@@ -199,13 +193,8 @@ class _TopPageState extends State<TopPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-<<<<<<< HEAD
-                              height: MediaQuery.of(context).size.width / 6,
-                              width: MediaQuery.of(context).size.width / 6,
-=======
                               height: MediaQuery.of(context).size.width / 7,
                               width: MediaQuery.of(context).size.width / 7,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                     Theme.of(context).accentColor),
@@ -218,10 +207,7 @@ class _TopPageState extends State<TopPage> {
                 child: ListView.builder(
                 physics: BouncingScrollPhysics(),
                 itemCount: showList.length,
-<<<<<<< HEAD
-=======
                 itemExtent: 70.0,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: Card(

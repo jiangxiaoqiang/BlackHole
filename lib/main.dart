@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import 'dart:io';
-import 'package:blackhole/Helpers/config.dart';
-import 'package:audio_service/audio_service.dart';
-import 'package:blackhole/Helpers/proxy.dart';
-=======
 /*
  * Copyright (c) 2021 Ankit Sangwan
  *
@@ -24,7 +18,6 @@ import 'package:blackhole/Helpers/proxy.dart';
 import 'dart:io';
 import 'package:blackhole/Helpers/config.dart';
 import 'package:audio_service/audio_service.dart';
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
 import 'package:blackhole/Screens/Library/nowplaying.dart';
 import 'package:blackhole/Screens/Library/playlists.dart';
 import 'package:blackhole/Screens/Library/recent.dart';
@@ -110,13 +103,6 @@ void main() async {
     print('Failed to initialize Firebase');
   }
 
-<<<<<<< HEAD
-  if (Hive.box('settings').get('useProxy', defaultValue: false)) {
-    appProxy.enable();
-  }
-
-=======
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
   Paint.enableDithering = true;
   runApp(MyApp());
 }
@@ -150,10 +136,7 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       title: 'BlackHole',
-<<<<<<< HEAD
-=======
       // debugShowCheckedModeBanner: false,
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
       themeMode: currentTheme.currentTheme(), //system,
       theme: ThemeData(
         textSelectionTheme: TextSelectionThemeData(
@@ -187,10 +170,7 @@ class _MyAppState extends State<MyApp> {
         appBarTheme: AppBarTheme(color: currentTheme.getCanvasColor()),
         canvasColor: currentTheme.getCanvasColor(),
         cardColor: currentTheme.getCardColor(),
-<<<<<<< HEAD
-=======
         dialogBackgroundColor: currentTheme.getCardColor(),
->>>>>>> b95d00f731f44a79616972f843ac38397ab2d14e
         accentColor: currentTheme.currentColor(),
       ),
       routes: {
