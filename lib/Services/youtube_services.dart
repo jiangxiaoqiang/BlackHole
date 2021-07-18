@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -17,6 +15,12 @@ class YouTubeServices {
     List<Video> results = await yt.playlists.getVideos(id).toList();
     yt.close();
     return results;
+  }
+
+  Future<Playlist> getPlaylistDetails(String id) async {
+    YoutubeExplode yt = YoutubeExplode();
+    Playlist metadata = await yt.playlists.get(id);
+    return metadata;
   }
 
   Future<List> getChannelSongs(String id) async {

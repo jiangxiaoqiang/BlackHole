@@ -2,6 +2,8 @@ import 'package:blackhole/APIs/api.dart';
 import 'package:blackhole/CustomWidgets/gradientContainers.dart';
 import 'package:blackhole/CustomWidgets/collage.dart';
 import 'package:blackhole/Helpers/import_export_playlist.dart';
+import 'package:blackhole/Helpers/playlist.dart';
+import 'package:blackhole/Helpers/search_add_playlist.dart';
 import 'package:blackhole/Helpers/webView.dart';
 import 'package:blackhole/Screens/Library/liked.dart';
 import 'package:blackhole/CustomWidgets/miniplayer.dart';
@@ -213,6 +215,168 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                               playlistNames = playlistNames;
                             });
                           }
+                        }),
+                    ListTile(
+                        title: Text('Import from YouTube'),
+                        leading: Card(
+                          elevation: 0,
+                          color: Colors.transparent,
+                          child: SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: Center(
+                              child: Icon(
+                                MdiIcons.youtube,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? null
+                                    : Colors.grey[700],
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () async {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext ctxt) {
+                              final _controller = TextEditingController();
+                              return AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Enter Playlist Link',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .accentColor),
+                                        ),
+                                      ],
+                                    ),
+                                    TextField(
+                                        autofocus: true,
+                                        controller: _controller,
+                                        textAlignVertical:
+                                            TextAlignVertical.bottom,
+                                        onSubmitted: (value) async {
+                                          String link = value.trim();
+                                          Navigator.pop(context);
+                                          Map data = await SearchAddPlaylist()
+                                              .addYtPlaylist(link);
+                                          if (data.isNotEmpty) {
+                                            playlistNames.add(data['title']);
+                                            print(
+                                                "playlistNames npw is $playlistNames");
+                                            settingsBox.put(
+                                                'playlistNames', playlistNames);
+                                            await SearchAddPlaylist()
+                                                .showProgress(
+                                                    data['count'],
+                                                    context,
+                                                    data['title'],
+                                                    data['image'],
+                                                    data['tracks']);
+                                            setState(() {
+                                              playlistNames = playlistNames;
+                                            });
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                elevation: 6,
+                                                backgroundColor:
+                                                    Colors.grey[900],
+                                                behavior:
+                                                    SnackBarBehavior.floating,
+                                                content: Text(
+                                                  'Failed to Import',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                action: SnackBarAction(
+                                                  textColor: Theme.of(context)
+                                                      .accentColor,
+                                                  label: 'Ok',
+                                                  onPressed: () {},
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        }),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Theme.of(context).brightness ==
+                                              Brightness.dark
+                                          ? Colors.white
+                                          : Colors.grey[700],
+                                    ),
+                                    child: Text("Cancel"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.white,
+                                      backgroundColor:
+                                          Theme.of(context).accentColor,
+                                    ),
+                                    child: Text(
+                                      "Ok",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                      String link = _controller.text.trim();
+                                      Map data = await SearchAddPlaylist()
+                                          .addYtPlaylist(link);
+                                      if (data.isNotEmpty) {
+                                        playlistNames.add(data['title']);
+                                        settingsBox.put(
+                                            'playlistNames', playlistNames);
+                                        await SearchAddPlaylist().showProgress(
+                                            data['count'],
+                                            context,
+                                            data['title'],
+                                            data['image'],
+                                            data['tracks']);
+                                        setState(() {
+                                          playlistNames = playlistNames;
+                                        });
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            elevation: 6,
+                                            backgroundColor: Colors.grey[900],
+                                            behavior: SnackBarBehavior.floating,
+                                            content: Text(
+                                              'Failed to Import',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            action: SnackBarAction(
+                                              textColor:
+                                                  Theme.of(context).accentColor,
+                                              label: 'Ok',
+                                              onPressed: () {},
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         }),
                     playlistNames.isEmpty
                         ? SizedBox()
@@ -500,12 +664,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   }
 }
 
-void addPlaylist(String name, Map info) async {
-  if (name != 'Favorite Songs') await Hive.openBox(name);
-  Box playlistBox = Hive.box(name);
-  playlistBox.put(info['id'].toString(), info);
-}
-
 fetchPlaylists(code, context, playlistNames, settingsBox) async {
   List data = await SpotifyApi().getAccessToken(code);
   if (data.length != 0) {
@@ -516,6 +674,7 @@ fetchPlaylists(code, context, playlistNames, settingsBox) async {
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
+          print("PLAYLIST IS $spotifyPlaylists");
           return BottomGradientContainer(
             child: ListView.builder(
                 shrinkWrap: true,
@@ -526,31 +685,33 @@ fetchPlaylists(code, context, playlistNames, settingsBox) async {
                 itemBuilder: (context, index) {
                   String playName = spotifyPlaylists[index]['name'];
                   int playTotal = spotifyPlaylists[index]['tracks']['total'];
-                  return ListTile(
-                    title: Text(playName),
-                    subtitle: Text(playTotal == 1
-                        ? '$playTotal Song'
-                        : '$playTotal Songs'),
-                    leading: Card(
-                      elevation: 8,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0)),
-                      clipBehavior: Clip.antiAlias,
-                      child: CachedNetworkImage(
-                        errorWidget: (context, _, __) => Image(
-                          image: AssetImage('assets/cover.jpg'),
-                        ),
-                        imageUrl:
-                            '${spotifyPlaylists[index]["images"][0]['url'].replaceAll('http:', 'https:')}',
-                        placeholder: (context, url) => Image(
-                          image: AssetImage('assets/cover.jpg'),
-                        ),
-                      ),
-                    ),
-                    onTap: () async {
-                      Navigator.pop(context, index);
-                    },
-                  );
+                  return playTotal == 0
+                      ? SizedBox()
+                      : ListTile(
+                          title: Text(playName),
+                          subtitle: Text(playTotal == 1
+                              ? '$playTotal Song'
+                              : '$playTotal Songs'),
+                          leading: Card(
+                            elevation: 8,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0)),
+                            clipBehavior: Clip.antiAlias,
+                            child: CachedNetworkImage(
+                              errorWidget: (context, _, __) => Image(
+                                image: AssetImage('assets/cover.jpg'),
+                              ),
+                              imageUrl:
+                                  '${spotifyPlaylists[index]["images"][0]['url'].replaceAll('http:', 'https:')}',
+                              placeholder: (context, url) => Image(
+                                image: AssetImage('assets/cover.jpg'),
+                              ),
+                            ),
+                          ),
+                          onTap: () async {
+                            Navigator.pop(context, index);
+                          },
+                        );
                 }),
           );
         });
@@ -581,7 +742,7 @@ fetchPlaylists(code, context, playlistNames, settingsBox) async {
         try {
           List result = await SaavnAPI()
               .fetchTopSearchResult('$trackName by $trackArtist');
-          addPlaylist(playName, result[0]);
+          addPlaylistMap(playName, result[0]);
         } catch (e) {
           print('Error in $_done: $e');
         }
@@ -593,7 +754,6 @@ fetchPlaylists(code, context, playlistNames, settingsBox) async {
       backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext context) {
-        // songsAdder();
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter setStt) {
           return BottomGradientContainer(
