@@ -30,6 +30,12 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
   FloatingSearchBarController _controller = FloatingSearchBarController();
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (!status) {
       status = true;
@@ -170,8 +176,8 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                       ? Container(
                           child: Center(
                             child: Container(
-                                height: MediaQuery.of(context).size.width / 6,
-                                width: MediaQuery.of(context).size.width / 6,
+                                height: MediaQuery.of(context).size.width / 7,
+                                width: MediaQuery.of(context).size.width / 7,
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                       Theme.of(context).accentColor),
@@ -276,8 +282,10 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                                       index]
                                                                   .duration
                                                                   .toString()
-                                                                  .split(
-                                                                      ".")[0],
+                                                                  .split(".")[0]
+                                                                  .replaceFirst(
+                                                                      "0:0",
+                                                                      ""),
                                                         ),
                                                       ),
                                                     ],
@@ -298,7 +306,6 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                               ],
                                             ),
                                             onTap: () async {
-                                              print('pressed');
                                               setState(() {
                                                 done = false;
                                               });
@@ -386,12 +393,12 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width /
-                                                            6,
+                                                            7,
                                                     width:
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width /
-                                                            6,
+                                                            7,
                                                     child:
                                                         CircularProgressIndicator(
                                                       valueColor:

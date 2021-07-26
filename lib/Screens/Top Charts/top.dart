@@ -1,3 +1,4 @@
+import 'package:blackhole/CustomWidgets/custom_physics.dart';
 import 'package:blackhole/CustomWidgets/emptyScreen.dart';
 import 'package:blackhole/Screens/Search/search.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -77,6 +78,7 @@ class _TopChartsState extends State<TopCharts> {
             ),
           ),
           body: TabBarView(
+            physics: CustomPhysics(),
             children: [
               TopPage(
                 region: widget.region,
@@ -191,8 +193,8 @@ class _TopPageState extends State<TopPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                              height: MediaQuery.of(context).size.width / 6,
-                              width: MediaQuery.of(context).size.width / 6,
+                              height: MediaQuery.of(context).size.width / 7,
+                              width: MediaQuery.of(context).size.width / 7,
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                     Theme.of(context).accentColor),
@@ -205,6 +207,7 @@ class _TopPageState extends State<TopPage> {
                 child: ListView.builder(
                 physics: BouncingScrollPhysics(),
                 itemCount: showList.length,
+                itemExtent: 70.0,
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: Card(

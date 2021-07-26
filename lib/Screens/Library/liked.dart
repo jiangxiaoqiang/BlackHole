@@ -1,8 +1,11 @@
+import 'package:blackhole/CustomWidgets/add_playlist.dart';
 import 'package:blackhole/CustomWidgets/collage.dart';
+import 'package:blackhole/CustomWidgets/custom_physics.dart';
 import 'package:blackhole/CustomWidgets/downloadButton.dart';
 import 'package:blackhole/CustomWidgets/emptyScreen.dart';
 import 'package:blackhole/CustomWidgets/gradientContainers.dart';
 import 'package:blackhole/CustomWidgets/miniplayer.dart';
+import 'package:blackhole/Helpers/mediaitem_converter.dart';
 import 'package:blackhole/Screens/Library/showSongs.dart';
 import 'package:blackhole/Screens/Player/audioplayer.dart';
 import 'package:blackhole/Helpers/songs_count.dart';
@@ -453,8 +456,8 @@ class _LikedSongsState extends State<LikedSongs>
                     ? Container(
                         child: Center(
                           child: Container(
-                              height: MediaQuery.of(context).size.width / 6,
-                              width: MediaQuery.of(context).size.width / 6,
+                              height: MediaQuery.of(context).size.width / 7,
+                              width: MediaQuery.of(context).size.width / 7,
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                     Theme.of(context).accentColor),
@@ -463,6 +466,7 @@ class _LikedSongsState extends State<LikedSongs>
                         ),
                       )
                     : TabBarView(
+                        physics: CustomPhysics(),
                         controller: _tcontroller,
                         children: [
                           _songs.length == 0
@@ -480,6 +484,7 @@ class _LikedSongsState extends State<LikedSongs>
                                   padding: EdgeInsets.only(top: 10, bottom: 10),
                                   shrinkWrap: true,
                                   itemCount: _songs.length,
+                                  itemExtent: 70.0,
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                         leading: Card(
@@ -555,8 +560,30 @@ class _LikedSongsState extends State<LikedSongs>
                                                           ],
                                                         ),
                                                       ),
+                                                      PopupMenuItem(
+                                                        value: 1,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(Icons
+                                                                .playlist_add_rounded),
+                                                            Spacer(),
+                                                            Text(
+                                                                'Add to Playlist'),
+                                                            Spacer(),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     ],
                                                 onSelected: (value) async {
+                                                  if (value == 1) {
+                                                    AddToPlaylist()
+                                                        .addToPlaylist(
+                                                            context,
+                                                            MediaItemConverter()
+                                                                .mapToMediaItem(
+                                                                    _songs[
+                                                                        index]));
+                                                  }
                                                   if (value == 0) {
                                                     ScaffoldMessenger.of(
                                                             context)
@@ -614,6 +641,7 @@ class _LikedSongsState extends State<LikedSongs>
             padding: EdgeInsets.only(top: 20, bottom: 10),
             shrinkWrap: true,
             itemCount: sortedAlbumKeysList.length,
+            itemExtent: 70.0,
             itemBuilder: (context, index) {
               return ListTile(
                 leading: Collage(
@@ -656,6 +684,7 @@ class _LikedSongsState extends State<LikedSongs>
             padding: EdgeInsets.only(top: 20, bottom: 10),
             shrinkWrap: true,
             itemCount: sortedArtistKeysList.length,
+            itemExtent: 70.0,
             itemBuilder: (context, index) {
               return ListTile(
                 leading: Collage(
@@ -696,6 +725,7 @@ class _LikedSongsState extends State<LikedSongs>
             padding: EdgeInsets.only(top: 20, bottom: 10),
             shrinkWrap: true,
             itemCount: sortedGenreKeysList.length,
+            itemExtent: 70.0,
             itemBuilder: (context, index) {
               return ListTile(
                 leading: Collage(

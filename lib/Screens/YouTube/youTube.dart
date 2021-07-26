@@ -1,5 +1,5 @@
 import 'package:blackhole/CustomWidgets/gradientContainers.dart';
-import 'package:blackhole/Screens/Player/audioplayer.dart';
+import 'package:blackhole/Screens/YouTube/youtube_playlist.dart';
 import 'package:blackhole/Screens/YouTube/youtube_search.dart';
 import 'package:blackhole/Services/youtube_services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,11 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 bool status = false;
-List<Video> searchedList = [];
-bool fetched = false;
+List searchedList = Hive.box('cache').get('ytHome', defaultValue: []);
 
 class YouTube extends StatefulWidget {
   const YouTube({Key key}) : super(key: key);
@@ -21,11 +19,7 @@ class YouTube extends StatefulWidget {
 }
 
 class _YouTubeState extends State<YouTube> {
-  String playlist = 'PLnc6mq_nY21P4Ap1SIYC3v6uBQkvKrY3M';
-  String globalTopVideos = 'PL4fGSI1pDJn5kI81J1fYWK5eZRl1zJ5kM';
-  String globalTopSongs = 'PL4fGSI1pDJn6puJdseH2Rt9sMvt9E2M4i';
-  String hitList = 'RDCLAK5uy_kmPRjHDECIcuVwnKsx2Ng7fyNgFKWNJFs';
-  bool done = true;
+  String channelId = "UC-9-kyTW8ZkZNDHQJ6FgpwQ";
   List ytSearch = Hive.box('settings').get('ytSearch', defaultValue: []);
   bool showHistory =
       Hive.box('settings').get('showHistory', defaultValue: true);
@@ -34,12 +28,12 @@ class _YouTubeState extends State<YouTube> {
   @override
   void initState() {
     if (!status) {
-      status = true;
-      YouTubeServices().getPlaylistSongs(hitList).then((value) {
+      YouTubeServices().getChannelSongs(channelId).then((value) {
+        status = true;
         if (value.isNotEmpty) {
           setState(() {
             searchedList = value;
-            fetched = true;
+            Hive.box('cache').put('ytHome', value);
           });
         } else {
           status = false;
@@ -47,6 +41,12 @@ class _YouTubeState extends State<YouTube> {
       });
     }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -190,12 +190,12 @@ class _YouTubeState extends State<YouTube> {
         },
         body: Stack(
           children: [
-            (!fetched)
+            (searchedList.isEmpty)
                 ? Container(
                     child: Center(
                       child: Container(
-                          height: MediaQuery.of(context).size.width / 6,
-                          width: MediaQuery.of(context).size.width / 6,
+                          height: MediaQuery.of(context).size.width / 7,
+                          width: MediaQuery.of(context).size.width / 7,
                           child: CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 Theme.of(context).accentColor),
@@ -207,139 +207,107 @@ class _YouTubeState extends State<YouTube> {
                     itemCount: searchedList.length,
                     physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
-                    padding: EdgeInsets.fromLTRB(15, 80, 15, 0),
+                    padding: EdgeInsets.fromLTRB(10, 70, 10, 0),
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Card(
-                          elevation: 8,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          clipBehavior: Clip.antiAlias,
-                          child: GradientContainer(
-                            child: GestureDetector(
-                              child: Column(
-                                children: [
-                                  CachedNetworkImage(
-                                    errorWidget: (context, _, __) =>
-                                        CachedNetworkImage(
-                                      imageUrl: (searchedList[index]
-                                          .thumbnails
-                                          .standardResUrl),
-                                      errorWidget: (context, _, __) => Image(
-                                        image: AssetImage('assets/ytCover.png'),
-                                      ),
-                                    ),
-                                    imageUrl: searchedList[index]
-                                        .thumbnails
-                                        .maxResUrl,
-                                    placeholder: (context, url) => Image(
-                                      image: AssetImage('assets/ytCover.png'),
-                                    ),
+                      return Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 0, 5),
+                                child: Text(
+                                  '${searchedList[index]["title"]}',
+                                  style: TextStyle(
+                                    color: Theme.of(context).accentColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
                                   ),
-                                  ListTile(
-                                    dense: true,
-                                    contentPadding: EdgeInsets.only(left: 15.0),
-                                    title: Text(
-                                      searchedList[index].title,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    // isThreeLine: true,
-                                    subtitle: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 4 + 5,
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              itemCount:
+                                  searchedList[index]["playlists"].length,
+                              itemBuilder: (context, idx) {
+                                final item =
+                                    searchedList[index]["playlists"][idx];
+                                return GestureDetector(
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.height / 4 -
+                                            30,
+                                    child: Column(
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              searchedList[index].author,
-                                              overflow: TextOverflow.ellipsis,
+                                        Card(
+                                          elevation: 5,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          clipBehavior: Clip.antiAlias,
+                                          child: CachedNetworkImage(
+                                            errorWidget: (context, _, __) =>
+                                                Image(
+                                              image: AssetImage(
+                                                  'assets/cover.jpg'),
                                             ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 15.0),
-                                          child: Text(
-                                            searchedList[index]
-                                                .duration
-                                                .toString()
-                                                .split(".")[0],
+                                            imageUrl: item["image"],
+                                            placeholder: (context, url) =>
+                                                Image(
+                                              image: AssetImage(
+                                                  'assets/cover.jpg'),
+                                            ),
                                           ),
                                         ),
+                                        Text(
+                                          '${item["title"]}',
+                                          textAlign: TextAlign.center,
+                                          softWrap: false,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(
+                                          "${item["count"]} Tracks | ${item["description"]}",
+                                          textAlign: TextAlign.center,
+                                          softWrap: false,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 11,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .caption
+                                                  .color),
+                                        )
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                              onTap: () async {
-                                print('pressed');
-                                setState(() {
-                                  done = false;
-                                });
-
-                                Map response = await YouTubeServices()
-                                    .formatVideo(searchedList[index]);
-                                setState(() {
-                                  done = true;
-                                });
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    opaque: false,
-                                    pageBuilder: (_, __, ___) => PlayScreen(
-                                      fromMiniplayer: false,
-                                      data: {
-                                        'response': [response],
-                                        'index': 0,
-                                        'offline': false,
-                                        'fromYT': true,
-                                      },
-                                    ),
-                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        opaque: false,
+                                        pageBuilder: (_, __, ___) =>
+                                            YouTubePlaylist(
+                                          playlistId: item['playlistId'],
+                                          playlistImage: item['imageStandard'],
+                                          playlistName: item['title'],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                             ),
                           ),
-                        ),
+                        ],
                       );
-                    },
-                  ),
-            if (!done)
-              Center(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.width / 2,
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: Card(
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                    clipBehavior: Clip.antiAlias,
-                    child: GradientContainer(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(
-                                height: MediaQuery.of(context).size.width / 6,
-                                width: MediaQuery.of(context).size.width / 6,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Theme.of(context).accentColor),
-                                  strokeWidth: 5,
-                                )),
-                            Text('Fetching Audio Stream'),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
+                    }),
           ],
         ),
       ),

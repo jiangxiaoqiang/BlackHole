@@ -38,6 +38,12 @@ class _SearchPageState extends State<SearchPage> {
   FloatingSearchBarController _controller = FloatingSearchBarController();
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (!status) {
       status = true;
@@ -123,7 +129,7 @@ class _SearchPageState extends State<SearchPage> {
                       searchedData = {};
                       if (search.contains(_query)) search.remove(_query);
                       search.insert(0, _query);
-                      if (search.length > 10) search = search.sublist(0, 5);
+                      if (search.length > 5) search = search.sublist(0, 5);
                       Hive.box('settings').put('search', search);
                     });
                   },
@@ -231,8 +237,8 @@ class _SearchPageState extends State<SearchPage> {
                       ? Container(
                           child: Center(
                             child: Container(
-                                height: MediaQuery.of(context).size.width / 6,
-                                width: MediaQuery.of(context).size.width / 6,
+                                height: MediaQuery.of(context).size.width / 7,
+                                width: MediaQuery.of(context).size.width / 7,
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                       Theme.of(context).accentColor),
@@ -405,10 +411,10 @@ class _SearchPageState extends State<SearchPage> {
                                                       : key == 'Songs'
                                                           ? PlayScreen(
                                                               data: {
-                                                                  'response':
-                                                                      value,
-                                                                  'index':
-                                                                      index,
+                                                                  'response': [
+                                                                    value[index]
+                                                                  ],
+                                                                  'index': 0,
                                                                   'offline':
                                                                       false,
                                                                 },

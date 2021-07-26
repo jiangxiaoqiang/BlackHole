@@ -171,8 +171,8 @@ class _SongsListState extends State<SongsList> {
                   ? Container(
                       child: Center(
                         child: Container(
-                            height: MediaQuery.of(context).size.width / 6,
-                            width: MediaQuery.of(context).size.width / 6,
+                            height: MediaQuery.of(context).size.width / 7,
+                            width: MediaQuery.of(context).size.width / 7,
                             child: CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(
                                   Theme.of(context).accentColor),
@@ -185,6 +185,7 @@ class _SongsListState extends State<SongsList> {
                       padding: EdgeInsets.only(top: 10, bottom: 10),
                       shrinkWrap: true,
                       itemCount: _songs.length,
+                      itemExtent: 70.0,
                       itemBuilder: (context, index) {
                         return _songs.length == 0
                             ? SizedBox()
@@ -204,10 +205,16 @@ class _SongsListState extends State<SongsList> {
                                             ),
                                             _songs[index]['image'] == null
                                                 ? SizedBox()
-                                                : Image(
-                                                    image: MemoryImage(
-                                                        _songs[index]['image']),
-                                                  )
+                                                : SizedBox(
+                                                    height: 50.0,
+                                                    width: 50.0,
+                                                    child: Image(
+                                                      fit: BoxFit.cover,
+                                                      image: MemoryImage(
+                                                          _songs[index]
+                                                              ['image']),
+                                                    ),
+                                                  ),
                                           ],
                                         )
                                       : CachedNetworkImage(
