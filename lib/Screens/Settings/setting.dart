@@ -1009,6 +1009,7 @@ class _SettingPageState extends State<SettingPage> {
                                                       CupertinoIcons.clear,
                                                       size: 15.0,
                                                     ),
+                                                    tooltip: 'Remove',
                                                     onPressed: () {
                                                       dirPaths
                                                           .removeAt(idx - 1);
@@ -1081,17 +1082,6 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                       dense: true,
                     ),
-                    SwitchListTile(
-                        activeColor: Theme.of(context).accentColor,
-                        title: Text('Download Lyrics'),
-                        subtitle: Text('Default: Off'),
-                        dense: true,
-                        value: settingsBox.get('downloadLyrics',
-                            defaultValue: false),
-                        onChanged: (val) {
-                          settingsBox.put('downloadLyrics', val);
-                          setState(() {});
-                        }),
                     ListTile(
                       title: Text('Download Location'),
                       subtitle: Text('$downloadPath'),
@@ -1141,6 +1131,17 @@ class _SettingPageState extends State<SettingPage> {
                       },
                       dense: true,
                     ),
+                    SwitchListTile(
+                        activeColor: Theme.of(context).accentColor,
+                        title: Text('Download Lyrics'),
+                        subtitle: Text('Default: Off'),
+                        dense: true,
+                        value: settingsBox.get('downloadLyrics',
+                            defaultValue: false),
+                        onChanged: (val) {
+                          settingsBox.put('downloadLyrics', val);
+                          setState(() {});
+                        }),
                   ]),
                 ),
               ),
@@ -1466,6 +1467,7 @@ class _SettingPageState extends State<SettingPage> {
                                           IconButton(
                                             icon: Icon(MdiIcons.gmail),
                                             iconSize: 40,
+                                            tooltip: 'Gmail',
                                             onPressed: () {
                                               Navigator.pop(context);
                                               launch(
@@ -1481,10 +1483,11 @@ class _SettingPageState extends State<SettingPage> {
                                           IconButton(
                                             icon: Icon(MdiIcons.telegram),
                                             iconSize: 40,
+                                            tooltip: 'Telegram',
                                             onPressed: () {
                                               Navigator.pop(context);
                                               launch(
-                                                  "https://t.me/sangwan5688");
+                                                  "https://t.me/joinchat/fHDC1AWnOhw0ZmI9");
                                             },
                                           ),
                                           Text('Telegram'),
@@ -1496,6 +1499,7 @@ class _SettingPageState extends State<SettingPage> {
                                           IconButton(
                                             icon: Icon(MdiIcons.instagram),
                                             iconSize: 40,
+                                            tooltip: 'Instagram',
                                             onPressed: () {
                                               Navigator.pop(context);
                                               launch(

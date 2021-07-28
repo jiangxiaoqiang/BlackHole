@@ -207,6 +207,7 @@ class _HomePageState extends State<HomePage> {
                             },
                             blendMode: BlendMode.dstIn,
                             child: Image(
+                                alignment: Alignment.topCenter,
                                 image: AssetImage(
                                     Theme.of(context).brightness ==
                                             Brightness.dark
@@ -313,9 +314,7 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         _selectedIndex = indx;
                         if (indx == 0) {
-                          try {
-                            _size = _scrollController.offset;
-                          } catch (e) {}
+                          _size = 0;
                         }
                       });
                     },
@@ -669,9 +668,8 @@ class _HomePageState extends State<HomePage> {
                               child: Transform.rotate(
                                 angle: 22 / 7 * 2,
                                 child: IconButton(
-                                  icon: const Icon(Icons
-                                      .horizontal_split_rounded), // line_weight_rounded),
-                                  // color: Theme.of(context).accentColor,
+                                  icon: const Icon(
+                                      Icons.horizontal_split_rounded),
                                   color: Theme.of(context).brightness ==
                                           Brightness.dark
                                       ? null
