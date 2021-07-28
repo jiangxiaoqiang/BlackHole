@@ -225,6 +225,7 @@ class _PlayScreenState extends State<PlayScreen> {
                   leading: IconButton(
                       icon: Icon(Icons.expand_more_rounded),
                       color: Theme.of(context).iconTheme.color,
+                      tooltip: 'Back',
                       onPressed: () {
                         if (widget.fromMiniplayer) {
                           widget.controller
@@ -782,7 +783,6 @@ class _PlayScreenState extends State<PlayScreen> {
                                                 Expanded(
                                                   flex: 5,
                                                   child: FittedBox(
-                                                    fit: BoxFit.fitHeight,
                                                     child: Text(
                                                       globalQueue.length <=
                                                               globalIndex
@@ -808,23 +808,20 @@ class _PlayScreenState extends State<PlayScreen> {
                                                 ),
                                                 Expanded(
                                                   flex: 2,
-                                                  child: FittedBox(
-                                                    child: Text(
-                                                      globalQueue.length <=
-                                                              globalIndex
-                                                          ? 'Unknown'
-                                                          : globalQueue[
-                                                                  globalIndex]
-                                                              .artist,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
+                                                  child: Text(
+                                                    globalQueue.length <=
+                                                            globalIndex
+                                                        ? 'Unknown'
+                                                        : globalQueue[
+                                                                globalIndex]
+                                                            .artist,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ],
@@ -836,93 +833,106 @@ class _PlayScreenState extends State<PlayScreen> {
                                           position: Duration.zero,
                                           bufferedPosition: Duration.zero,
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Column(
-                                              children: [
-                                                SizedBox(height: 6.0),
-                                                IconButton(
-                                                  icon: Icon(
-                                                    Icons.shuffle_rounded,
-                                                  ),
-                                                  iconSize: 25.0,
-                                                  onPressed: null,
-                                                ),
-                                                if (!offline)
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  SizedBox(height: 6.0),
                                                   IconButton(
                                                     icon: Icon(
-                                                      Icons
-                                                          .favorite_border_rounded,
+                                                      Icons.shuffle_rounded,
                                                     ),
+                                                    tooltip: 'Shuffle',
                                                     iconSize: 25.0,
                                                     onPressed: null,
                                                   ),
-                                              ],
-                                            ),
-                                            IconButton(
-                                              icon: Icon(
-                                                  Icons.skip_previous_rounded),
-                                              iconSize: 45.0,
-                                              onPressed: null,
-                                            ),
-                                            Stack(
-                                              children: [
-                                                Center(
-                                                    child: SizedBox(
-                                                  height: 65,
-                                                  width: 65,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    valueColor:
-                                                        AlwaysStoppedAnimation<
-                                                                Color>(
-                                                            Theme.of(context)
-                                                                .accentColor),
-                                                  ),
-                                                )),
-                                                Center(
-                                                  child: Container(
+                                                  if (!offline)
+                                                    IconButton(
+                                                      icon: Icon(
+                                                        Icons
+                                                            .favorite_border_rounded,
+                                                      ),
+                                                      tooltip: 'Like',
+                                                      iconSize: 25.0,
+                                                      onPressed: null,
+                                                    ),
+                                                ],
+                                              ),
+                                              IconButton(
+                                                icon: Icon(Icons
+                                                    .skip_previous_rounded),
+                                                tooltip: 'Skip Previous',
+                                                iconSize: 45.0,
+                                                onPressed: null,
+                                              ),
+                                              Stack(
+                                                children: [
+                                                  Center(
+                                                      child: SizedBox(
                                                     height: 65,
                                                     width: 65,
-                                                    child: Center(
-                                                      child: SizedBox(
-                                                        height: 59,
-                                                        width: 59,
-                                                        child: playButton(),
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Theme.of(context)
+                                                                  .accentColor),
+                                                    ),
+                                                  )),
+                                                  Center(
+                                                    child: Container(
+                                                      height: 65,
+                                                      width: 65,
+                                                      child: Center(
+                                                        child: SizedBox(
+                                                          height: 59,
+                                                          width: 59,
+                                                          child: playButton(),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            IconButton(
-                                              icon:
-                                                  Icon(Icons.skip_next_rounded),
-                                              iconSize: 45.0,
-                                              onPressed: null,
-                                            ),
-                                            Column(
-                                              children: [
-                                                SizedBox(height: 6.0),
-                                                IconButton(
-                                                  icon: Icon(
-                                                      Icons.repeat_rounded),
-                                                  iconSize: 25.0,
-                                                  onPressed: null,
-                                                ),
-                                                if (!offline)
+                                                ],
+                                              ),
+                                              IconButton(
+                                                icon: Icon(
+                                                    Icons.skip_next_rounded),
+                                                iconSize: 45.0,
+                                                tooltip: 'Skip Next',
+                                                onPressed: null,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  SizedBox(height: 6.0),
                                                   IconButton(
-                                                      icon:
-                                                          Icon(Icons.save_alt),
-                                                      iconSize: 25.0,
-                                                      onPressed: null),
-                                              ],
-                                            ),
-                                          ],
+                                                    icon: Icon(
+                                                        Icons.repeat_rounded),
+                                                    iconSize: 25.0,
+                                                    tooltip: 'Repeat',
+                                                    onPressed: null,
+                                                  ),
+                                                  if (!offline)
+                                                    IconButton(
+                                                        icon: Icon(
+                                                            Icons.save_alt),
+                                                        iconSize: 25.0,
+                                                        tooltip: 'Download',
+                                                        onPressed: null),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 45,
                                         ),
                                       ],
                                     );
@@ -1175,7 +1185,9 @@ class _PlayScreenState extends State<PlayScreen> {
                                                   child: Text(
                                                     (mediaItem?.title != null)
                                                         ? (mediaItem.title
-                                                            .split(" (")[0])
+                                                            .split(" (")[0]
+                                                            .split("|")[0]
+                                                            .trim())
                                                         : ((globalQueue
                                                                     .length <=
                                                                 globalIndex)
@@ -1183,8 +1195,9 @@ class _PlayScreenState extends State<PlayScreen> {
                                                             : globalQueue[
                                                                     globalIndex]
                                                                 .title
-                                                                .split(
-                                                                    " (")[0]),
+                                                                .split(" (")[0]
+                                                                .split("|")[0]
+                                                                .trim()),
                                                     textAlign: TextAlign.center,
                                                     overflow: TextOverflow.fade,
                                                     maxLines: 1,
@@ -1262,6 +1275,7 @@ class _PlayScreenState extends State<PlayScreen> {
                                                   icon: Icon(
                                                       Icons.shuffle_rounded),
                                                   iconSize: 25.0,
+                                                  tooltip: 'Shuffle',
                                                   color: shuffle
                                                       ? Theme.of(context)
                                                           .accentColor
@@ -1286,6 +1300,7 @@ class _PlayScreenState extends State<PlayScreen> {
                                                           icon: Icon(Icons
                                                               .favorite_border_rounded),
                                                           iconSize: 25.0,
+                                                          tooltip: 'Like',
                                                           onPressed: null)
                                                       : LikeButton(
                                                           mediaItem: mediaItem,
@@ -1297,6 +1312,7 @@ class _PlayScreenState extends State<PlayScreen> {
                                                     icon: Icon(Icons
                                                         .skip_previous_rounded),
                                                     iconSize: 45.0,
+                                                    tooltip: 'Skip Previous',
                                                     onPressed: (mediaItem !=
                                                                 null &&
                                                             (mediaItem !=
@@ -1321,6 +1337,7 @@ class _PlayScreenState extends State<PlayScreen> {
                                                     icon: Icon(Icons
                                                         .skip_previous_rounded),
                                                     iconSize: 45.0,
+                                                    tooltip: 'Skip Previous',
                                                     onPressed: null),
 
                                             /// Play button
@@ -1394,6 +1411,7 @@ class _PlayScreenState extends State<PlayScreen> {
                                                     icon: Icon(Icons
                                                         .skip_next_rounded),
                                                     iconSize: 45.0,
+                                                    tooltip: 'Skip Next',
                                                     onPressed: (mediaItem !=
                                                                 null &&
                                                             (mediaItem !=
@@ -1419,6 +1437,7 @@ class _PlayScreenState extends State<PlayScreen> {
                                                     icon: Icon(Icons
                                                         .skip_next_rounded),
                                                     iconSize: 45.0,
+                                                    tooltip: 'Skip Next',
                                                     onPressed: null),
 
                                             Column(
@@ -1431,6 +1450,7 @@ class _PlayScreenState extends State<PlayScreen> {
                                                       : Icon(
                                                           Icons.repeat_rounded),
                                                   iconSize: 25.0,
+                                                  tooltip: 'Repeat $repeatMode',
                                                   color: repeatMode == 'None'
                                                       ? null
                                                       : Theme.of(context)
@@ -1518,6 +1538,7 @@ class _PlayScreenState extends State<PlayScreen> {
                                                             Icons.save_alt,
                                                           ),
                                                           iconSize: 25.0,
+                                                          tooltip: 'Download',
                                                           onPressed: null),
                                               ],
                                             ),
@@ -1682,6 +1703,8 @@ class _PlayScreenState extends State<PlayScreen> {
                                                                                 Icon(
                                                                               Icons.bar_chart_rounded,
                                                                             ),
+                                                                            tooltip:
+                                                                                'Playing',
                                                                             onPressed:
                                                                                 () {},
                                                                           )
@@ -1839,6 +1862,7 @@ class _PlayScreenState extends State<PlayScreen> {
 
   FloatingActionButton playButton() => FloatingActionButton(
         elevation: 10,
+        tooltip: 'Play',
         child: Icon(
           Icons.play_arrow_rounded,
           size: 40.0,
@@ -1849,6 +1873,7 @@ class _PlayScreenState extends State<PlayScreen> {
 
   FloatingActionButton pauseButton() => FloatingActionButton(
         elevation: 10,
+        tooltip: 'Pause',
         child: Icon(
           Icons.pause_rounded,
           color: Colors.white,
