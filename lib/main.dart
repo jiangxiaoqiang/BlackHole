@@ -31,6 +31,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:blackhole/Screens/Login/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:wheel/wheel.dart' show RestLog;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -100,10 +101,13 @@ void main() async {
   try {
     await Firebase.initializeApp();
   } catch (e) {
+    RestLog.logger('Failed to initialize Firebase');
+    //RestLog.
     print('Failed to initialize Firebase');
   }
 
   Paint.enableDithering = true;
+  RestLog.logger("Start backhole app...");
   runApp(MyApp());
 }
 
