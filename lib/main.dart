@@ -15,6 +15,7 @@
  * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import 'dart:async';
 import 'dart:io';
 import 'package:blackhole/Helpers/config.dart';
 import 'package:audio_service/audio_service.dart';
@@ -108,10 +109,25 @@ void main() async {
     print('Failed to initialize Firebase');
   }
 
+  void _handleError(Object obj, StackTrace stack) {
+    RestLog.logger("global error:" +stack.toString());
+  }
+
   Paint.enableDithering = true;
   var value1 = GlobalConfiguration().get("baseUrl");
   RestLog.logger("Start backhole app...");
-  runApp(MyApp());
+  runZonedGuarded((){
+    FlutterError.onError = (FlutterErrorDetails errorDetails) {
+      RestLog.logger(errorDetails.toString());
+    };
+    runApp(
+      MyApp(
+
+      ),
+    );
+  },(Object error,StackTrace stackTrace){
+    _handleError(error,stackTrace);
+  });
 }
 
 class MyApp extends StatefulWidget {
