@@ -38,6 +38,7 @@ jobs:
           flutter precache
           flutter pub get
           cd ./ios
+          pod update Firebase/Database
           pod repo update
           pod install
       - run: flutter build ios --release --no-codesign --no-sound-null-safety

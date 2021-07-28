@@ -32,9 +32,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:blackhole/Screens/Login/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:wheel/wheel.dart' show RestLog;
+import 'package:global_configuration/global_configuration.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  GlobalConfiguration().loadFromAsset("app_settings");
   await Hive.initFlutter();
   try {
     await Hive.openBox('settings');
@@ -107,6 +109,7 @@ void main() async {
   }
 
   Paint.enableDithering = true;
+  var value1 = GlobalConfiguration().get("baseUrl");
   RestLog.logger("Start backhole app...");
   runApp(MyApp());
 }
