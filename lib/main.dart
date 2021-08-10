@@ -31,9 +31,12 @@ import 'package:blackhole/Screens/Settings/setting.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:blackhole/Screens/Login/auth.dart';
+<<<<<<< HEAD
 import 'package:firebase_core/firebase_core.dart';
 import 'package:wheel/wheel.dart' show RestLog;
 import 'package:global_configuration/global_configuration.dart';
+=======
+>>>>>>> e53003961c9ad2a4bed42d109d5a02ac0bb1ce76
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,7 +88,7 @@ void main() async {
     final box = await Hive.openBox('songDetails');
     // clear box if it grows large
     // each song detail is about 3.9KB so it's <5MB
-    if (box.length > 1200) {
+    if (box.length > 1000) {
       box.clear();
     }
     await Hive.openBox('songDetails');
@@ -101,6 +104,7 @@ void main() async {
     await lockFile.delete();
     await Hive.openBox("songDetails");
   }
+<<<<<<< HEAD
   try {
     await Firebase.initializeApp();
   } catch (e) {
@@ -108,6 +112,8 @@ void main() async {
     //RestLog.
     print('Failed to initialize Firebase');
   }
+=======
+>>>>>>> e53003961c9ad2a4bed42d109d5a02ac0bb1ce76
 
   void _handleError(Object obj, StackTrace stack) {
     RestLog.logger("global error:" +stack.toString());
@@ -145,7 +151,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   initialFuntion() {
-    return Hive.box('settings').get('name') != null
+    return Hive.box('settings').get('auth') != null
         ? AudioServiceWidget(child: HomePage())
         : AuthScreen();
   }
